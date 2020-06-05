@@ -16,7 +16,7 @@ public class UserInput
     public UserInput()
     {
         // Instanzvariable initialisieren
-        x = 0;
+        x = 12345;
     }
 
     /**
