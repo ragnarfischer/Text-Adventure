@@ -1,29 +1,86 @@
+/**
+ * Objekte können sich in Räumen befinden. Sie tragen einen Namen, eine Beschreibung und einen Inhalt.
+ * 
+ * @author Ragnar Fischer
+ */
 public class Object
 {
     private String name;
     private String description;
-    private String content;
     
-    public Object (String name, String description, String content)
+    private String contentString;
+    private int[] contentValue;
+
+    /**
+     * Konstruktor für Objekte, die einen String beeinhalten.
+     * @param name Name des Objektes
+     * @param description Beschreibung des Objektes
+     * @param contentString Inhalt, der bei Interaktion wiedergegeben werden soll
+     */
+    public Object (String name, String description, String contentString)
     {
         this.name = name;
         this.description = description;
-        this.content = content;
+        this.contentString = contentString;
     }
     
+    /**
+     * Konstruktor für Objekte, die einen Wert beeinhalten.
+     * @param name Name des Objektes
+     * @param description Beschreibung des Objektes
+     * @param contentValue Inhalt, der bei Interaktion verarbeitet werden soll
+     */
+    public Object (String name, String description, int[] contentValue)
+    {
+        this.name = name;
+        this.description = description;
+        this.contentValue = contentValue;
+    }
+
+    /**
+     * @return Der Name des Objektes
+     */
     public String getName()
     {
         return name;
     }
-    
+
+    /**
+     * @return Eine Beschreibung des Objektes
+     */
     public String getDescription()
     {
         return description;
     }
     
-    public String interact()
+    /**
+     * @return Der Typ des Objektes (1 für String-Objekt, 2 für Wert-Objekt)
+     */
+    public int getType()
     {
-        //Zurückgeben des Contents. Am besten über Array, bei dem erstes Feld Art der Variable impliziert und zweites den Inhalt trägt // Oder separates Content-Objekt mit versch. Konsturktoren, die das dann irgendwie regeln
-        return content;
+        if (contentValue == null)
+        {
+            return 1;
+        }
+        else
+        {
+            return 2;
+        }
+    }
+    
+    /**
+     * @return Der Inhalt des Objektes (Text)
+     */
+    public String getContentString()
+    {
+        return contentString;
+    }
+    
+    /**
+     * @return Der Inhalt des Objektes (Wert)
+     */
+    public int[] getContentValue()
+    {
+        return contentValue;
     }
 }
