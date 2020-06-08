@@ -5,6 +5,7 @@ public class GameMaker
     private boolean quit = false;
     private UserInput userInput = new UserInput();
     private ControlCommand controlCommand = new ControlCommand();
+    private Player player = new Player();
     
     public void PLAY()
     {
@@ -21,26 +22,40 @@ public class GameMaker
     
     private void execute (String controlCommand)
     {
-        // Dies das execute und so
+        switch (controlCommand)
+        {
+            case "Abbrechen": quit = true;
+            case "Hilfe": help();
+            default: System.out.println ("Bitte nochmal. Ich habe nicht ganz verstanden, was du machen möchtest.");
+        }
     }
     
     private void introduction()
     {
-        System.out.println ("Hallo, hallo, hallo. Blablabla");
-        
-        //Vorstellung des Erzählers, des Szenarios, der Figuren
+        System.out.println ("Vorstellung des Erzählers, des Szenarios, der Figuren");
     }
     
     private void choosePlayer()
     {
-        //Auswahl zwischen vorgestellten Spielern durch Eingabe des Namens
+        userInput.parse();
+        
+        switch (controlCommand.getCurrentCommand())
+        {
+            case "Spieler 1": player.setPlayer(1);
+            case "Spieler 2": player.setPlayer(2);
+            case "Spieler 3": player.setPlayer(3);
+            default: System.out.println ("Bitte nochmal. Ich habe dich nicht ganz verstanden.");
+        }
     }
     
     private void lastHints()
     {
-        System.out.println ("Weist du was? Ich bin SCHWANGEER!");
-        
-        //Help-Befehl, Exit-Befehl, viel Glück
+        System.out.println ("Help-Befehl, Exit-Befehl, viel Glück");
+    }
+    
+    private void help()
+    {
+        System.out.println ("Auflistung aller Befehle und vielleicht noch sonst was");
     }
     
     private void gameSetup()
