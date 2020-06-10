@@ -7,7 +7,7 @@ public class GameMaker
     private ControlCommand controlCommand = new ControlCommand();
     private Player player = new Player();
     
-    public void PLAY()
+    public void play()
     {
         introduction();
         choosePlayer();
@@ -15,14 +15,14 @@ public class GameMaker
         
         while (!quit)
         {
-            userInput.parse();
-            execute (controlCommand.getCurrentCommand());
+            userInput.giveCommand();
+            execute (controlCommand.giveCommandWord());
         }
     }
     
-    private void execute (String controlCommand)
+    private void execute (String[] controlCommand)
     {
-        switch (controlCommand)
+        switch (controlCommand[0])
         {
             case "Abbrechen": quit = true;
             case "Hilfe": help();
@@ -37,12 +37,12 @@ public class GameMaker
     
     private void choosePlayer()
     {
-        userInput.parse();
+        userInput.giveCommand();
         
-        switch (controlCommand.getCurrentCommand())
+        switch (controlCommand.giveCommandWord()[0])
         {
-            case "Spieler 1": player.setPlayer(1);
-            case "Spieler 2": player.setPlayer(2);
+            case "knight": player.setPlayer(1);
+            case "witcher": player.setPlayer(2);
             case "Spieler 3": player.setPlayer(3);
             default: System.out.println ("Bitte nochmal. Ich habe dich nicht ganz verstanden.");
         }

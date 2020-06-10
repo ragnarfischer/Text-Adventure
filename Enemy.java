@@ -1,10 +1,3 @@
-
-/**
- * Beschreiben Sie hier die Klasse Enemy.
- * 
- * @author (Ihr Name) 
- * @version (eine Versionsnummer oder ein Datum)
- */
 public class Enemy
 {
     // Instanzvariablen - ersetzen Sie das folgende Beispiel mit Ihren Variablen
@@ -29,5 +22,20 @@ public class Enemy
     {
         // tragen Sie hier den Code ein
         return x + y;
+    }
+    
+    public void welcomeText()
+    {
+        System.out.println("Willkommen Fremdling.");
+    }
+    
+    public void textFight()
+    {
+        System.out.println("Ich habe direkt an deinem widerlichen Gestank erkannt. Zieh dein Schwert damit ich dich vernichten kann.");
+    }
+    
+    public void textTalk()
+    {
+        System.out.println("Ich bin" + x + "und kann dir helfen. Möchtest du Informationen haben?");
     }
 }
