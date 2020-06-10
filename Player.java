@@ -8,26 +8,22 @@
 public class Player
 {
     // Instanzvariablen - ersetzen Sie das folgende Beispiel mit Ihren Variablen
-    private int x;
+    private String beschreibung;
 
     /**
      * Konstruktor für Objekte der Klasse Player
      */
     public Player()
     {
-        // Instanzvariable initialisieren
-        x = 0;
+        this.beschreibung = beschreibung;
     }
 
     /**
-     * Ein Beispiel einer Methode - ersetzen Sie diesen Kommentar mit Ihrem eigenen
-     * 
-     * @param  y    ein Beispielparameter für eine Methode
-     * @return        die Summe aus x und y
+     * @return  die kurze Beschreibung dieses Raums (die dem Konstruktor
+     *          übergeben wurde)
      */
-    public int beispielMethode(int y)
+    public String gibKurzbeschreibung()
     {
-        // tragen Sie hier den Code ein
-        return x + y;
+        return beschreibung;
     }
 }

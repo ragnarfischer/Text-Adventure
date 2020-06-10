@@ -7,27 +7,85 @@
  */
 public class ControlCommand
 {
-    // Instanzvariablen - ersetzen Sie das folgende Beispiel mit Ihren Variablen
-    private int x;
+    // ein konstantes Array mit den gültigen Befehlswörtern
+    private static final String working_Commands[] = {
+            "go", "quit", "help", "choose"
+        };
+
+    private String commandWord;
+    private String secondWord;
 
     /**
      * Konstruktor für Objekte der Klasse ControlCommand
      */
-    public ControlCommand()
+    public ControlCommand(String commandWord, String secondWord)
     {
-        // Instanzvariable initialisieren
-        x = 0;
+        commandWord = commandWord;
+        this.secondWord = secondWord;
     }
 
     /**
-     * Ein Beispiel einer Methode - ersetzen Sie diesen Kommentar mit Ihrem eigenen
-     * 
-     * @param  y    ein Beispielparameter für eine Methode
-     * @return        die Summe aus x und y
+     * Liefere das Befehlswort (das erste Wort) dieses Befehls.
+     * Wenn der Befehl nicht verstanden wurde, ist das Ergebnis
+     * 'null'.
+     * @return  das Befehlswort
      */
-    public int beispielMethode(int y)
+    public String giveCommandWord()
     {
-        // tragen Sie hier den Code ein
-        return x + y;
+        return commandWord;
     }
+
+    /**
+     * @return  das zweite Wort dieses Befehls 
+     *          liefere 'null', wenn es kein zweites Wort gab
+     */
+    public String giveSecondWord()
+    {
+        return secondWord;
+    }
+
+    /**
+     * @return  true, wenn dieser Befehl nicht verstanden wurde
+     */
+    public boolean isUnknown()
+    {
+        return (commandWord == null);
+    }
+
+    /**
+     * @return  true, wenn dieser Befehl ein zweites Wort hat
+     */
+    public boolean gotSecondWord()
+    {
+        return (secondWord != null);
+    }
+
+    /**
+     * Prüfe, ob eine gegebene Zeichenkette ein gültiger
+     * Befehl ist.
+     * @return true  wenn die gegebene Zeichenkette ein gültiger
+     *               Befehl ist, false sonst
+     */
+    public static boolean isCommand(String input)
+    {
+        for(int i = 0; i < working_Commands.length; i++) {
+            if(working_Commands[i].equals(input))
+                return true;
+        }
+        // Wenn wir hierher gelangen, wurde die Eingabe nicht
+        // in den Befehlswörter gefunden.
+        return false;
+    }
+
+    /**
+     * Gib alle gültigen Befehlswörter auf die Konsole aus.
+     */
+    public void showAllCommands() 
+    {
+        for(String befehl : working_Commands) {
+            System.out.print(befehl + "  ");
+        }
+        System.out.println();
+    }
+
 }
