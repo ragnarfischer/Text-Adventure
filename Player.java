@@ -31,6 +31,6 @@ public class Player
     
     public void setPlayer(int index)
     {
-        
+        System.out.println ("You chose Player " + index);
     }
 }

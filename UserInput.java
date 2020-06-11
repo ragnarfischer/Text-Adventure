@@ -2,7 +2,6 @@ import java.util.Scanner;
 
 public class UserInput
 {
-    private ControlCommand command;  // hält die gültigen Befehlswörter
     private Scanner reader;         // Lieferant für eingegebene Befehle
 
     /**
@@ -11,13 +10,12 @@ public class UserInput
     public UserInput()
     {
         reader = new Scanner(System.in);
-        command = new ControlCommand();
     }
 
     /**
      * @return  den nächsten Befehl des Benutzers
      */
-    public void giveCommand() 
+    public String[] giveCommand() 
     {
         String inputline;   // für die gesamte Eingabezeile
         String word1 = null;
@@ -26,7 +24,7 @@ public class UserInput
         System.out.print("> ");     // Eingabeaufforderung
 
         inputline = reader.nextLine();
-        
+
         // Finde bis zu zwei Wörter in der Zeile
         Scanner cutter = new Scanner(inputline);
         if(cutter.hasNext()) {
@@ -36,13 +34,13 @@ public class UserInput
                 // Hinweis: Wir ignorieren den Rest der Eingabezeile.
             }
         }
-        
+
         // Jetzt prüfen, ob der Befehl bekannt ist. Wenn ja, erzeugen
         // wir das passende Befehl-Objekt. Wenn nicht, erzeugen wir
         // einen unbekannten Befehl mit 'null'.
-        
+
         String[] commands = {word1, word2};
-        command.setCommandWord(commands);
+        return commands;
     }
 
     /**
@@ -50,6 +48,6 @@ public class UserInput
      */
     public void showCommand()
     {
-        command.showAllCommands();
+        //command.showAllCommands();
     }
 }

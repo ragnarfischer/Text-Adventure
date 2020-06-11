@@ -8,14 +8,14 @@ public class ControlCommand
 {
     // ein konstantes Array mit den gültigen Befehlswörtern
     private static final String working_Commands[] = {
-            "go", "quit", "help", "choose"
+            "go", "quit", "help", "choose", "player", "hunter", "witcher"
         };
 
-    private String[] commandWord;
+    private String[] mcommandWord;
     
-    public void setCommandWord(String[] commmandWord)
+    public ControlCommand(String[] commandWords)
     {
-        this.commandWord = commandWord;
+        mcommandWord = commandWords;
     }
 
     /**
@@ -26,7 +26,7 @@ public class ControlCommand
      */
     public String[] giveCommandWord()
     {
-        return commandWord;
+        return mcommandWord;
     }
 
     /**
@@ -34,7 +34,7 @@ public class ControlCommand
      */
     public boolean isUnknown()
     {
-        return (commandWord == null);
+        return (mcommandWord == null);
     }
 
     /**
