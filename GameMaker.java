@@ -16,18 +16,13 @@ public class GameMaker
         while (!quit)
         {
             controlCommand = new ControlCommand(userInput.giveCommand());
-            execute (controlCommand.giveCommandWord());
+            controlCommand.execute();
         }
     }
     
-    private void execute (String[] controlCommand)
+    public void setQuit()
     {
-        switch (controlCommand[0])
-        {
-            case "quit": quit = true; break;
-            case "help": help(); break;
-            default: System.out.println ("Bitte nochmal. Ich habe nicht ganz verstanden, was du machen möchtest.");
-        }
+        quit = true;
     }
     
     private void introduction()
@@ -39,7 +34,7 @@ public class GameMaker
     {
         controlCommand = new ControlCommand(userInput.giveCommand());
         
-        switch (controlCommand.giveCommandWord()[0])
+        switch (controlCommand.getCommand()[0])
         {
             case "player": player.setPlayer(1); break;
             case "hunter": player.setPlayer(2); break;
@@ -53,7 +48,7 @@ public class GameMaker
         System.out.println ("Help-Befehl, Exit-Befehl, viel Glück");
     }
     
-    private void help()
+    public void help()
     {
         System.out.println ("Auflistung aller Befehle und vielleicht noch sonst was");
     }
