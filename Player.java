@@ -7,30 +7,39 @@
  */
 public class Player
 {
-    // Instanzvariablen - ersetzen Sie das folgende Beispiel mit Ihren Variablen
-    private String beschreibung;
-    private int stärke = 0;
-    private int rüstung = 0;
-    
+    private int attackDamage;
+    private int armor;
+    private int energy = 100;
     /**
-     * Konstruktor für Objekte der Klasse Player
+     * Funktion wird von GameMaker aufgerufen und übergibt eine Zahl, mit der dann die Werte des Player festgelegt werden
      */
-    public Player()
+    public void setPlayer(int player)
     {
-        this.beschreibung = beschreibung;
-    }
-
-    /**
-     * @return  die kurze Beschreibung dieses Raums (die dem Konstruktor
-     *          übergeben wurde)
-     */
-    public String gibKurzbeschreibung()
-    {
-        return beschreibung;
+        switch (player)
+        {
+            case 1: armor = 100; attackDamage = 50; break; //knight
+            case 2: armor = 50; attackDamage = 70; ; break; //elb
+            case 3: armor = 20; attackDamage = 100; break; //witcher
+        }
     }
     
-    public void setPlayer(int index)
+    public void afterFight()
     {
-        System.out.println ("You chose Player " + index);
+        energy = energy - 50;
+    }
+    
+    public int giveAttackDamage()
+    {
+        return attackDamage;
+    }
+    
+    public int giveEnergy()
+    {
+        return energy;
+    }
+    
+    public int giveArmor()
+    {
+        return armor;
     }
 }
