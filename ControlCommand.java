@@ -6,52 +6,31 @@
  */
 public class ControlCommand
 {
-    // ein konstantes Array mit den gültigen Befehlswörtern
     private static final String working_Commands[] = {
-            "go", "quit", "help", "choose", "player", "hunter", "witcher"
+            "go", "quit", "help", "choose"
         };
-
-    private String[] mcommandWord;
     
+    private String[] mcommandWord;
+    private GameMaker gameMaker;
     public ControlCommand(String[] commandWords)
     {
         mcommandWord = commandWords;
     }
 
-    /**
-     * Liefere das Befehlswort (das erste Wort) dieses Befehls.
-     * Wenn der Befehl nicht verstanden wurde, ist das Ergebnis
-     * 'null'.
-     * @return  das Befehlswort
-     */
-    public String[] giveCommandWord()
+    public String[] getCommand()
     {
         return mcommandWord;
     }
-
-    /**
-     * @return  true, wenn dieser Befehl nicht verstanden wurde
-     */
-    public boolean isUnknown()
+    
+    public void execute ()
     {
-        return (mcommandWord == null);
-    }
-
-    /**
-     * Prüfe, ob eine gegebene Zeichenkette ein gültiger
-     * Befehl ist.
-     * @return true  wenn die gegebene Zeichenkette ein gültiger
-     *               Befehl ist, false sonst
-     */
-    public static boolean isCommand(String input)
-    {
-        for(int i = 0; i < working_Commands.length; i++) {
-            if(working_Commands[i].equals(input))
-                return true;
+        gameMaker = new GameMaker();
+        switch (mcommandWord[0])
+        {
+            case "quit": gameMaker.setQuit(); break;
+            case "help": gameMaker.help(); break;
+            default: System.out.println ("Bitte nochmal. Ich habe nicht ganz verstanden, was du machen möchtest.");
         }
-        // Wenn wir hierher gelangen, wurde die Eingabe nicht
-        // in den Befehlswörter gefunden.
-        return false;
     }
 
     /**

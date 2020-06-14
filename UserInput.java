@@ -48,6 +48,6 @@ public class UserInput
      */
     public void showCommand()
     {
-        //command.showAllCommands();
+        //ControlCommand.showAllCommands();
     }
 }

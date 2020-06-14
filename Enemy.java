@@ -1,41 +1,38 @@
 public class Enemy
 {
-    // Instanzvariablen - ersetzen Sie das folgende Beispiel mit Ihren Variablen
-    private int x;
+    private int attackDamage;
+    private int armor;
+    private String description;
+    private String textFight;
 
     /**
      * Konstruktor für Objekte der Klasse Enemy
      */
-    public Enemy()
+    public Enemy(int attackDamage, int armor, String description, String textFight)
     {
-        // Instanzvariable initialisieren
-        x = 0;
+        this.attackDamage = attackDamage;
+        this.armor = armor;
+        this.description = description;
+        this.textFight = textFight;
     }
 
-    /**
-     * Ein Beispiel einer Methode - ersetzen Sie diesen Kommentar mit Ihrem eigenen
-     * 
-     * @param  y    ein Beispielparameter für eine Methode
-     * @return        die Summe aus x und y
-     */
-    public int beispielMethode(int y)
+    public int giveAttackDamage()
     {
-        // tragen Sie hier den Code ein
-        return x + y;
+        return attackDamage;
     }
     
-    public void welcomeText()
+    public int giveArmor()
     {
-        System.out.println("Willkommen Fremdling.");
+        return armor;
     }
     
-    public void textFight()
+    public String giveDesciption()
     {
-        System.out.println("Ich habe direkt an deinem widerlichen Gestank erkannt. Zieh dein Schwert damit ich dich vernichten kann.");
+        return description;
     }
     
-    public void textTalk()
+    public String giveText()
     {
-        System.out.println("Ich bin" + x + "und kann dir helfen. Möchtest du Informationen haben?");
+        return textFight;
     }
 }
