@@ -15,11 +15,12 @@ public class UserInput
     /**
      * @return  den nächsten Befehl des Benutzers
      */
-    public String[] giveCommand() 
+    public String[] getCommand() 
     {
         String inputline;   // für die gesamte Eingabezeile
         String word1 = null;
         String word2 = null;
+        String word3 = null;
 
         System.out.print("> ");     // Eingabeaufforderung
 
@@ -31,7 +32,10 @@ public class UserInput
             word1 = cutter.next();     // erstes Wort lesen: Buchstaben bis zum nächsten Leerzeichen/Return
             if (cutter.hasNext()) {
                 word2 = cutter.next();    // zweites Wort lesen: Buchstaben bis zum nächsten Leerzeichen/Return
-                // Hinweis: Wir ignorieren den Rest der Eingabezeile.
+                if (cutter.hasNext()) {
+                    word3 = cutter.next();    // zweites Wort lesen: Buchstaben bis zum nächsten Leerzeichen/Return
+                    // Hinweis: Wir ignorieren den Rest der Eingabezeile.
+                }
             }
         }
 
@@ -39,7 +43,7 @@ public class UserInput
         // wir das passende Befehl-Objekt. Wenn nicht, erzeugen wir
         // einen unbekannten Befehl mit 'null'.
 
-        String[] commands = {word1, word2};
+        String[] commands = {word1, word2, word3};
         return commands;
     }
 

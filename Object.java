@@ -1,58 +1,16 @@
 /**
- * Objekte können sich in Räumen befinden. Sie tragen einen Namen, eine Beschreibung und einen Inhalt.
+ * Objekt, das einen Namen, eine Beschreibung und einen Typ beinhaltet. Der Inhalt wird in den Tochterklassen zugewiesen.
  * 
  * @author Ragnar Fischer
  */
 public class Object
 {
-    private String name;
-    private String description;
-    
-    private String contentString;
-    private int[] contentValue;
-    private Object[] contentObjects;
+    public String name;
+    public String description;
+    public int type;
 
     /**
-     * Konstruktor für Objekte, die einen String beeinhalten.
-     * @param name Name des Objektes
-     * @param description Beschreibung des Objektes
-     * @param contentString Inhalt, der bei Interaktion wiedergegeben werden soll
-     */
-    public Object (String name, String description, String contentString)
-    {
-        this.name = name;
-        this.description = description;
-        this.contentString = contentString;
-    }
-    
-    /**
-     * Konstruktor für Objekte, die einen Wert beeinhalten.
-     * @param name Name des Objektes
-     * @param description Beschreibung des Objektes
-     * @param contentValue Inhalt, der bei Interaktion verarbeitet werden soll
-     */
-    public Object (String name, String description, int[] contentValue)
-    {
-        this.name = name;
-        this.description = description;
-        this.contentValue = contentValue;
-    }
-    
-    /**
-     * Konstruktor für Objekte, die einen Wert beeinhalten.
-     * @param name Name des Objektes
-     * @param description Beschreibung des Objektes
-     * @param contentObject Objekte, die sich in dem Objekt befinden
-     */
-    public Object (String name, String description, Object[] contentObjects)
-    {
-        this.name = name;
-        this.description = description;
-        this.contentObjects = contentObjects;
-    }
-
-    /**
-     * @return Der Name des Objektes
+     * @return Name des Objektes.
      */
     public String getName()
     {
@@ -60,7 +18,7 @@ public class Object
     }
 
     /**
-     * @return Eine Beschreibung des Objektes
+     * @return Beschreibung des Objektes.
      */
     public String getDescription()
     {
@@ -68,49 +26,13 @@ public class Object
     }
     
     /**
-     * @return Der Typ des Objektes (1 für String-Objekt, 2 für Wert-Objekt, 3 für Objekte-Objekt, -1 wenn Fehler)
+     * Typ des Objetes. 
+     * 1, wenn das Objekt einen String beinhaltet, 
+     * 2, wenn das Objekt einen Wert beinhaltet, 
+     * 3, wenn das Objekt weiter Objekte beinhaltet.
      */
     public int getType()
     {
-        if (contentString != null)
-        {
-            return 1;
-        }
-        else if (contentValue != null)
-        {
-            return 2;
-        }
-        else if (contentObjects != null)
-        {
-            return 3;
-        }
-        else
-        {
-            return -1;
-        }
-    }
-    
-    /**
-     * @return Der Inhalt des Objektes (Text)
-     */
-    public String getContentString()
-    {
-        return contentString;
-    }
-    
-    /**
-     * @return Der Inhalt des Objektes (Wert)
-     */
-    public int[] getContentValue()
-    {
-        return contentValue;
-    }
-    
-    /**
-     * @return Der Inhalt des Objektes (Objekte)
-     */
-    public Object[] getContentObjetcs()
-    {
-        return contentObjects;
+        return type;
     }
 }
