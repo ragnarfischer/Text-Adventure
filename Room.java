@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Iterator;
 
 /**
  * Raum, der einen Namen, eine Beschreibung, Objekte aller Art, Feinde und Ausgänge enthält.
