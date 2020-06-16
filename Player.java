@@ -29,17 +29,17 @@ public class Player
         energy = energy - 50;
     }
     
-    public int giveAttackDamage()
+    public int getAttackDamage()
     {
         return attackDamage;
     }
     
-    public int giveEnergy()
+    public int getEnergy()
     {
         return energy;
     }
     
-    public int giveArmor()
+    public int getArmor()
     {
         return armor;
     }

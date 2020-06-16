@@ -23,22 +23,22 @@ public class Enemy
         return name;
     }
 
-    public int giveAttackDamage()
+    public int getAttackDamage()
     {
         return attackDamage;
     }
     
-    public int giveArmor()
+    public int getArmor()
     {
         return armor;
     }
     
-    public String giveDesciption()
+    public String getDesciption()
     {
         return description;
     }
     
-    public String giveText()
+    public String getText()
     {
         return textFight;
     }

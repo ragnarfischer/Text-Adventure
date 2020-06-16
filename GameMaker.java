@@ -67,13 +67,11 @@ public class GameMaker
     {
         switch (userInput.getCommand()[0])
         {
-            case "Spieler1": player.setPlayer(1); break;
-            case "Spieler2": player.setPlayer(2); break;
-            case "Spieler3": player.setPlayer(3); break;
-            default: System.out.println ("Bitte nochmal. Ich habe dich nicht ganz verstanden.");
+            case "Spieler1": player.setPlayer(1); System.out.println ("Hallo " + player.getName()); break;
+            case "Spieler2": player.setPlayer(2); System.out.println ("Hallo " + player.getName()); break;
+            case "Spieler3": player.setPlayer(3); System.out.println ("Hallo " + player.getName()); break;
+            default: System.out.println ("Bitte nochmal. Ich habe dich nicht ganz verstanden."); choosePlayer();
         }
-
-        System.out.println ("Hallo " + player.getName());
     }
 
     /**
@@ -172,9 +170,9 @@ public class GameMaker
             {
                 switch (objectChanger.getContent()[0])
                 {
-                    case 1: player.setAttackDamage(player.giveAttackDamage() + objectChanger.getContent()[1]); break;
-                    case 2: player.setArmor(player.giveArmor() + objectChanger.getContent()[1]);               break;
-                    case 3: player.setEnergy(player.giveEnergy() + objectChanger.getContent()[1]);             break;
+                    case 1: player.setAttackDamage(player.getAttackDamage() + objectChanger.getContent()[1]); break;
+                    case 2: player.setArmor(player.getArmor() + objectChanger.getContent()[1]);               break;
+                    case 3: player.setEnergy(player.getEnergy() + objectChanger.getContent()[1]);             break;
                     default: System.out.println("Entschuldigung, es ist ein Fehler aufgetreten.");
                 }
             }
@@ -228,9 +226,9 @@ public class GameMaker
     private void checkAbilitys()
     {
         System.out.println("Hier sind deine Fähigkeiten: ");
-        System.out.println ("Stärke: " + player.giveAttackDamage());
-        System.out.println ("Rüstung: " + player.giveArmor());
-        System.out.println ("Energie: " + player.giveEnergy());
+        System.out.println ("Stärke: " + player.getAttackDamage());
+        System.out.println ("Rüstung: " + player.getArmor());
+        System.out.println ("Energie: " + player.getEnergy());
     }
 
     /**
@@ -246,10 +244,10 @@ public class GameMaker
         {
             if (enemy.getName().equals(name))
             {
-                System.out.println (enemy.giveText());
+                System.out.println (enemy.getText());
                 
-                score = score + (player.giveArmor() - enemy.giveAttackDamage());
-                score = score + (player.giveAttackDamage() - enemy.giveArmor());
+                score = score + (player.getArmor() - enemy.getAttackDamage());
+                score = score + (player.getAttackDamage() - enemy.getArmor());
                 
                 long currentTime = System.currentTimeMillis();
                 while (System.currentTimeMillis() < currentTime + 3000) { }
