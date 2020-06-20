@@ -2,7 +2,7 @@
 /**
  * Beschreiben Sie hier die Klasse Player.
  * 
- * @author (Ihr Name) 
+ * @author Tyll Heinen 
  * @version (eine Versionsnummer oder ein Datum)
  */
 public class Player
@@ -18,15 +18,16 @@ public class Player
     {
         switch (player)
         {
-            case 1: name = "NameSpieler1"; armor = 100; attackDamage = 50; break; //knight
-            case 2: name = "NameSpieler2"; armor = 50; attackDamage = 70; ; break; //elb
-            case 3: name = "NameSpieler3"; armor = 20; attackDamage = 100; break; //witcher
+            case 1: name = "Ritter"; armor = 100; attackDamage = 50; break; //knight
+            case 2: name = "Bogenschütze"; armor = 50; attackDamage = 70; ; break; //elb
+            case 3: name = "Magier"; armor = 20; attackDamage = 100; break; //witcher
         }
     }
     
     public void afterFight()
     {
         energy = energy - 50;
+        
     }
     
     public int getAttackDamage()

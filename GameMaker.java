@@ -4,7 +4,7 @@ import java.util.Arrays;
 /**
  * Zentrale Klasse, die das Spiel leitet. Sie legt den Spielablauf fest, erstellt das Spielfeld und setzt die Steuerbefehle um.
  * 
- * @author Ragnar Fischer
+ * @author Ragnar Fischer & Tyll Heinen
  */
 public class GameMaker
 {
@@ -58,7 +58,17 @@ public class GameMaker
      */
     private void introduction()
     {
-        System.out.println ("Vorstellung des Erzählers, des Szenarios, der Figuren");
+        System.out.println("Wilkommen in dem Schloss der Trolle, du bist ein gesandter des Königs und hast die Aufgabe das Schloss von den Feinden zu säubern.");
+        System.out.println("");
+        System.out.println("Du kannst, indem du versteckte Items findest deine Rüstung, deinen Nahkampfwert verbessern.");
+        System.out.println("Außerdem kannst du deine Energie nach einem Kampf mit Zaubertränken wieder auffüllen.");
+        System.out.println("");
+        System.out.println("Du hast nun die Auswahl zwischen 3 Figuren.");
+        System.out.println("Entweder du wählst einen ehrenvollen Krieger mit dicker Rüstung und breitem Schwert,");
+        System.out.println("oder einen Bogenschützen mit dünner Lederrüstung und messerscharfen Pfeilspitzen,"); 
+        System.out.println("oder einen Magier mit einem spitzen Hut, einem Zauberstab und einem modrig riechenden Gewand.");
+        System.out.println("");
+        System.out.println("Bitte gib nun ein, entweder Ritter, Bogenschütze, oder Magier");
     }
 
     /**
@@ -68,9 +78,9 @@ public class GameMaker
     {
         switch (userInput.getCommand()[0])
         {
-            case "Spieler1": player.setPlayer(1); System.out.println ("Hallo " + player.getName()); break;
-            case "Spieler2": player.setPlayer(2); System.out.println ("Hallo " + player.getName()); break;
-            case "Spieler3": player.setPlayer(3); System.out.println ("Hallo " + player.getName()); break;
+            case "Ritter": player.setPlayer(1); System.out.println ("Hallo Herr " + player.getName() +" !"); break;
+            case "Bogenschütze": player.setPlayer(2); System.out.println ("Hallo Herr " + player.getName() +" !"); break;
+            case "Magier": player.setPlayer(3); System.out.println ("Hallo Herr " + player.getName() +" !"); break;
             default: System.out.println ("Bitte nochmal. Ich habe dich nicht ganz verstanden."); choosePlayer();
         }
     }
@@ -81,7 +91,10 @@ public class GameMaker
     private void lastHints()
     {
         System.out.println ("");
-        System.out.println ("Help-Befehl, Exit-Befehl, viel Glück");
+        System.out.println ("Falls du nicht weiter weißt, dann gib einfach mal 'Hilfe' ein.");
+        System.out.println ("Wenn du keine Lust mehr haben solltest, dann gib einfach 'Beenden' ein");
+        System.out.println ("Nun viel Erfolg und stirb am besten nicht!");
+        card();
     }
 
     //----------------- Steuerungsmethoden -----------------
@@ -246,10 +259,15 @@ public class GameMaker
             if (enemy.getName().equals(name))
             {
                 System.out.println (enemy.getText());
-                
+
+                if(player.getEnergy() == 0)
+                {
+                    System.out.println ("Verloren gegen " + enemy.getName());
+                    quit = true;
+                }
                 score = score + (player.getArmor() - enemy.getAttackDamage());
                 score = score + (player.getAttackDamage() - enemy.getArmor());
-                
+
                 long currentTime = System.currentTimeMillis();
                 while (System.currentTimeMillis() < currentTime + 3000) { }
 
@@ -267,8 +285,18 @@ public class GameMaker
                 return;
             }
         }
+        player.afterFight();
+        if(player.getEnergy() == 0)
+        {
+            energyWarning();
+        }
     }
 
+    public void energyWarning()
+    {
+        System.out.println("Durch das ganze kämpfen bist du erschöpft bitte such dir einen Energieauffrischer. Falls du einen Gegner triffst, dann verlierst du aus schwäche den Kampf.");
+    }
+    
     //----------------- Spielaufbau -----------------
 
     /**
@@ -277,10 +305,10 @@ public class GameMaker
     public GameMaker()
     {
         //Räume
-        Room room1 = new Room ("NameRaum1", 
-                "Beschreibung Raum 1",
-                new ArrayList<ObjectSpeaker> (Arrays.asList( new ObjectSpeaker ("NameObjekt1", "Beschreibung Objekt 1", "Inhalt Objekt 1"), 
-                        new ObjectSpeaker ("NameObjekt2", "Beschreibung Objekt 2", "Inhalt Objekt 2"))),
+        Room room1 = new Room ("Eingangshalle", 
+                "Ein Raum mit hohen Decken und großen Fenstern. Man hört ein leises plätschern und spürt einen kalten Windzug.",
+                new ArrayList<ObjectSpeaker> (Arrays.asList( new ObjectSpeaker ("Bernd Höcke", "Ein alter, dümmlicher Mann mit versteiftem Arm", "Endlich! Wir brauchen dringed hilfe, da drin sind die Trolle."), 
+                        new ObjectSpeaker ("Karte", "Ein leicht zerfleddertes Stück Pergament ", "Inhalt Objekt 2"))),
                 null,
                 new ArrayList<ObjectContainer> (Arrays.asList( new ObjectContainer ("NameObjekt5", "Beschreibung Objekt 5", 
                             new ArrayList<ObjectSpeaker> (Arrays.asList( new ObjectSpeaker("NameA", "Beschreibung A", "Inhalt A"), 
@@ -288,17 +316,44 @@ public class GameMaker
                             null,
                             null))),
                 null);
+                
         Room room2 = new Room ("NameRaum2", 
                 "Beschreibung Raum 2",
                 new ArrayList<ObjectSpeaker> (Arrays.asList( new ObjectSpeaker ("NameObjekt3", "Beschreibung Objekt 3", "Inhalt Objekt 3"))),
                 new ArrayList<ObjectChanger> (Arrays.asList( new ObjectChanger ("NameObjekt4", "Beschreibung Objekt 4", new int[] {1,10}))),
                 null,
-                new ArrayList<Enemy> (Arrays.asList( new Enemy ("Feind1", 20, 20, "Beschreibung Feind 1", "Kampftext Fein 1"))));
+                new ArrayList<Enemy> (Arrays.asList( new Enemy ("Feind1", 20, 20, "Beschreibung Feind 1", "Kampftext Feind 1"))));
 
+                
         //Ausgänge
         room1.addExit (new Exit ("Norden", room2));
         room2.addExit (new Exit ("Süden", room1));
 
         currentRoom = room1;
+    }
+    //---------------------- Karte ------------------------
+    
+    public void card()
+    { 
+      System.out.println(""); 
+      System.out.println("Hier siehst du die Karte, das O markiert deinen Startpunkt und die markierten Stellen mit dem x kannst du nicht betreten:");  
+      System.out.println(""); 
+      System.out.println("                                 ------------");  
+      System.out.println("                                |            |");
+      System.out.println("                                |            |");
+      System.out.println("                                |            |");  
+      System.out.println("           ---------- ---------- --------------------");
+      System.out.println("          |          |                               |");
+      System.out.println("          |          |                               |");
+      System.out.println("          |           --------------------------------------------------------------");
+      System.out.println("          |          | xxxxxxxxxxxxxxxxxxxxxx|            |            |            |");
+      System.out.println("          |--------------------------------|x|            |            |            |");
+      System.out.println(" ---------|                                |x|            |            |            |");
+      System.out.println("|         |                                |x|--------------------------------------");
+      System.out.println("|         |  O                             |-|          |");
+      System.out.println("|         |                                  |          |");
+      System.out.println(" ---------|                                  |          |");
+      System.out.println("          |                                  |          |");
+      System.out.println("           ---------------------------------------------");
     }
 }
