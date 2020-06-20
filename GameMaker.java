@@ -4,7 +4,7 @@ import java.util.Arrays;
 /**
  * Zentrale Klasse, die das Spiel leitet. Sie legt den Spielablauf fest, erstellt das Spielfeld und setzt die Steuerbefehle um.
  * 
- * @author Ragnar Fischer & Tyll Heinen
+ * @author Ragnar Fischer
  */
 public class GameMaker
 {
@@ -124,13 +124,18 @@ public class GameMaker
      */
     private void changeRoom(String direction)
     {
-        for (Exit exit : currentRoom.getExits())
+        if (currentRoom.getExits() != null)
         {
-            if (exit.getDirection().equals(direction))
+            for (Exit exit : currentRoom.getExits())
             {
-                currentRoom = exit.getDestination();
+                if (exit.getDirection().equals(direction))
+                {
+                    currentRoom = exit.getDestination();
+                    return;
+                }
             }
         }
+        System.out.println ("Bitte nochmal. Ich habe nicht ganz verstanden, wohin du gehen möchtest.");
     }
 
     /**
@@ -141,9 +146,12 @@ public class GameMaker
         System.out.println (currentRoom.getDescription());
 
         System.out.print ("Im Raum befinden sich ");
-        for (Object object : currentRoom.getObjects())
+        if (currentRoom.getObjects() != null)
         {
-            System.out.print(object.getName() + ", ");
+            for (Object object : currentRoom.getObjects())
+            {
+                System.out.print(object.getName() + ", ");
+            }
         }
         if (currentRoom.getEnemies() != null)
         {
@@ -162,13 +170,18 @@ public class GameMaker
      */
     private void speakTo (String name)
     {
-        for (ObjectSpeaker objectSpeaker : currentRoom.getObjectSpeakers())
+        if (currentRoom.getObjectSpeakers() != null)
         {
-            if (objectSpeaker.getName().equals(name))
+            for (ObjectSpeaker objectSpeaker : currentRoom.getObjectSpeakers())
             {
-                System.out.println (objectSpeaker.getContent());
+                if (objectSpeaker.getName().equals(name))
+                {
+                    System.out.println (objectSpeaker.getContent());
+                    return;
+                }
             }
         }
+        System.out.println ("Bitte nochmal. Ich habe nicht ganz verstanden, was du machen möchtest.");
     }
 
     /**
@@ -178,19 +191,24 @@ public class GameMaker
      */
     private void use(String name)
     {
-        for (ObjectChanger objectChanger : currentRoom.getObjectChangers())
+        if (currentRoom.getObjectChangers() != null)
         {
-            if (objectChanger.getName().equals(name))
+            for (ObjectChanger objectChanger : currentRoom.getObjectChangers())
             {
-                switch (objectChanger.getContent()[0])
+                if (objectChanger.getName().equals(name))
                 {
-                    case 1: player.setAttackDamage(player.getAttackDamage() + objectChanger.getContent()[1]); break;
-                    case 2: player.setArmor(player.getArmor() + objectChanger.getContent()[1]);               break;
-                    case 3: player.setEnergy(player.getEnergy() + objectChanger.getContent()[1]);             break;
-                    default: System.out.println("Entschuldigung, es ist ein Fehler aufgetreten.");
+                    switch (objectChanger.getContent()[0])
+                    {
+                        case 1: player.setAttackDamage(player.getAttackDamage() + objectChanger.getContent()[1]); break;
+                        case 2: player.setArmor(player.getArmor() + objectChanger.getContent()[1]);               break;
+                        case 3: player.setEnergy(player.getEnergy() + objectChanger.getContent()[1]);             break;
+                        default: System.out.println("Entschuldigung, irgendwie ist mir Fehler passiert.");
+                    }
+                    return;
                 }
             }
         }
+        System.out.println ("Bitte nochmal. Ich habe nicht ganz verstanden, was du benutzen möchtest.");
     }
 
     /**
@@ -200,38 +218,43 @@ public class GameMaker
      */
     private void open(String name)
     {
-        for (ObjectContainer objectContainer : currentRoom.getObjectContainers())
+        if (currentRoom.getObjectContainers() != null)
         {
-            if (objectContainer.getName().equals(name))
+            for (ObjectContainer objectContainer : currentRoom.getObjectContainers())
             {
-                System.out.print ("Hier drin befinden sich: ");
-                if (objectContainer.getContentSpeaker() != null)
+                if (objectContainer.getName().equals(name))
                 {
-                    for (ObjectSpeaker objectSpeaker : objectContainer.getContentSpeaker())
+                    System.out.print ("Hier drin befinden sich: ");
+                    if (objectContainer.getContentSpeaker() != null)
                     {
-                        System.out.print(objectSpeaker.getName() + ", ");
-                        currentRoom.addObjectSpeaker(objectSpeaker);
+                        for (ObjectSpeaker objectSpeaker : objectContainer.getContentSpeaker())
+                        {
+                            System.out.print(objectSpeaker.getName() + ", ");
+                            currentRoom.addObjectSpeaker(objectSpeaker);
+                        }
                     }
-                }
-                if (objectContainer.getContentChanger() != null)
-                {
-                    for (ObjectChanger objectChanger : objectContainer.getContentChanger())
+                    if (objectContainer.getContentChanger() != null)
                     {
-                        System.out.print(objectChanger.getName() + ", ");
-                        currentRoom.addObjectChanger(objectChanger);
+                        for (ObjectChanger objectChanger : objectContainer.getContentChanger())
+                        {
+                            System.out.print(objectChanger.getName() + ", ");
+                            currentRoom.addObjectChanger(objectChanger);
+                        }
                     }
-                }
-                if (objectContainer.getContentContainer() != null)
-                {
-                    for (ObjectContainer objectContainerContent : objectContainer.getContentContainer())
+                    if (objectContainer.getContentContainer() != null)
                     {
-                        System.out.print(objectContainerContent.getName() + ", ");
-                        currentRoom.addObjectContainer(objectContainer);
+                        for (ObjectContainer objectContainerContent : objectContainer.getContentContainer())
+                        {
+                            System.out.print(objectContainerContent.getName() + ", ");
+                            currentRoom.addObjectContainer(objectContainer);
+                        }
                     }
+                    System.out.println ("Luft.");
+                    return;
                 }
-                System.out.println ("Luft.");
             }
         }
+        System.out.println ("Bitte nochmal. Ich habe nicht ganz verstanden, was du öffnen möchtest.");
     }
 
     /**
@@ -239,7 +262,7 @@ public class GameMaker
      */
     private void checkAbilitys()
     {
-        System.out.println("Hier sind deine Fähigkeiten: ");
+        System.out.println ("Hier sind deine Fähigkeiten: ");
         System.out.println ("Stärke: " + player.getAttackDamage());
         System.out.println ("Rüstung: " + player.getArmor());
         System.out.println ("Energie: " + player.getEnergy());
@@ -254,49 +277,46 @@ public class GameMaker
     {
         int score = 0;
 
-        for (Enemy enemy : currentRoom.getEnemies())
+        if (currentRoom.getEnemies() != null)
         {
-            if (enemy.getName().equals(name))
+            for (Enemy enemy : currentRoom.getEnemies())
             {
-                System.out.println (enemy.getText());
-
-                if(player.getEnergy() == 0)
+                if (enemy.getName().equals(name))
                 {
-                    System.out.println ("Verloren gegen " + enemy.getName());
-                    quit = true;
-                }
-                score = score + (player.getArmor() - enemy.getAttackDamage());
-                score = score + (player.getAttackDamage() - enemy.getArmor());
+                    System.out.println (enemy.getText());
 
-                long currentTime = System.currentTimeMillis();
-                while (System.currentTimeMillis() < currentTime + 3000) { }
+                    if(player.getEnergy() == 0)
+                    {
+                        System.out.println("Durch das ganze kämpfen bist du erschöpft bitte such dir einen Energieauffrischer. Falls du einen Gegner triffst, dann verlierst du aus schwäche den Kampf.");
+                        System.out.println ("Verloren gegen " + enemy.getName());
+                        quit = true;
+                    }
+                    score = score + (player.getArmor() - enemy.getAttackDamage());
+                    score = score + (player.getAttackDamage() - enemy.getArmor());
 
-                if (score > 0) {
-                    System.out.println ("Gewonnen gegen " + enemy.getName());
-                    currentRoom.removeEnemy(enemy);
+                    long currentTime = System.currentTimeMillis();
+                    while (System.currentTimeMillis() < currentTime + 3000) { }
+
+                    if (score > 0) {
+                        System.out.println ("Gewonnen gegen " + enemy.getName());
+                        currentRoom.removeEnemy(enemy);
+                    }
+                    else if (score == 0) {
+                        System.out.println ("Unentschieden gegen " + enemy.getName());
+                    }
+                    else {
+                        System.out.println ("Verloren gegen " + enemy.getName());
+                        quit = true;
+                    }
+                    player.afterFight();
+                    return;
                 }
-                else if (score == 0) {
-                    System.out.println ("Unentschieden gegen " + enemy.getName());
-                }
-                else {
-                    System.out.println ("Verloren gegen " + enemy.getName());
-                    quit = true;
-                }
-                return;
             }
         }
-        player.afterFight();
-        if(player.getEnergy() == 0)
-        {
-            energyWarning();
-        }
+
+        System.out.println ("Bitte nochmal. Ich habe nicht ganz verstanden, gegen wen du kämpfen möchtest.");
     }
 
-    public void energyWarning()
-    {
-        System.out.println("Durch das ganze kämpfen bist du erschöpft bitte such dir einen Energieauffrischer. Falls du einen Gegner triffst, dann verlierst du aus schwäche den Kampf.");
-    }
-    
     //----------------- Spielaufbau -----------------
 
     /**
@@ -316,7 +336,7 @@ public class GameMaker
                             null,
                             null))),
                 null);
-                
+
         Room room2 = new Room ("NameRaum2", 
                 "Beschreibung Raum 2",
                 new ArrayList<ObjectSpeaker> (Arrays.asList( new ObjectSpeaker ("NameObjekt3", "Beschreibung Objekt 3", "Inhalt Objekt 3"))),
@@ -324,36 +344,34 @@ public class GameMaker
                 null,
                 new ArrayList<Enemy> (Arrays.asList( new Enemy ("Feind1", 20, 20, "Beschreibung Feind 1", "Kampftext Feind 1"))));
 
-                
         //Ausgänge
         room1.addExit (new Exit ("Norden", room2));
         room2.addExit (new Exit ("Süden", room1));
 
         currentRoom = room1;
     }
-    //---------------------- Karte ------------------------
-    
+
     public void card()
     { 
-      System.out.println(""); 
-      System.out.println("Hier siehst du die Karte, das O markiert deinen Startpunkt und die markierten Stellen mit dem x kannst du nicht betreten:");  
-      System.out.println(""); 
-      System.out.println("                                 ------------");  
-      System.out.println("                                |            |");
-      System.out.println("                                |            |");
-      System.out.println("                                |            |");  
-      System.out.println("           ---------- ---------- --------------------");
-      System.out.println("          |          |                               |");
-      System.out.println("          |          |                               |");
-      System.out.println("          |           --------------------------------------------------------------");
-      System.out.println("          |          | xxxxxxxxxxxxxxxxxxxxxx|            |            |            |");
-      System.out.println("          |--------------------------------|x|            |            |            |");
-      System.out.println(" ---------|                                |x|            |            |            |");
-      System.out.println("|         |                                |x|--------------------------------------");
-      System.out.println("|         |  O                             |-|          |");
-      System.out.println("|         |                                  |          |");
-      System.out.println(" ---------|                                  |          |");
-      System.out.println("          |                                  |          |");
-      System.out.println("           ---------------------------------------------");
+        System.out.println(""); 
+        System.out.println("Hier siehst du die Karte, das O markiert deinen Startpunkt und die markierten Stellen mit dem x kannst du nicht betreten:");  
+        System.out.println(""); 
+        System.out.println("                                 ------------");  
+        System.out.println("                                |            |");
+        System.out.println("                                |            |");
+        System.out.println("                                |            |");  
+        System.out.println("           ---------- ---------- --------------------");
+        System.out.println("          |          |                               |");
+        System.out.println("          |          |                               |");
+        System.out.println("          |           --------------------------------------------------------------");
+        System.out.println("          |          | xxxxxxxxxxxxxxxxxxxxxx|            |            |            |");
+        System.out.println("          |--------------------------------|x|            |            |            |");
+        System.out.println(" ---------|                                |x|            |            |            |");
+        System.out.println("|         |                                |x|--------------------------------------");
+        System.out.println("|         |  O                             |-|          |");
+        System.out.println("|         |                                  |          |");
+        System.out.println(" ---------|                                  |          |");
+        System.out.println("          |                                  |          |");
+        System.out.println("           ---------------------------------------------");
     }
 }

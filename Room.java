@@ -99,7 +99,7 @@ public class Room
     {
         return objectSpeakers;
     }
-    
+
     /**
      * Hinzufügen eines weiteren Objektes, das einen String beinhaltet.
      * 
@@ -117,7 +117,7 @@ public class Room
     {
         return objectChangers;
     }
-    
+
     /**
      * Hinzufügen eines weiteren Objektes, das einen Wert beinhaltet.
      * 
@@ -135,7 +135,7 @@ public class Room
     {
         return objectContainers;
     }
-    
+
     /**
      * Hinzufügen eines weiteren Objektes, das weitere Objekte beinhaltet.
      * 
@@ -145,15 +145,30 @@ public class Room
     {
         objectContainers.add(objectContainer);
     }
-    
+
     /**
-     * @return Alle Feinde im Raum.
+     * @return Alle lebenden Feinde im Raum.
      */
     public ArrayList<Enemy> getEnemies()
     {
-        return enemies;
+        if (enemies == null)
+        {
+            return null;
+        }
+        else
+        {
+            ArrayList<Enemy> enemyReturn = new ArrayList<Enemy>();
+            Iterator<Enemy> enemyIterator = enemies.iterator();
+
+            while (enemyIterator.hasNext())
+            {
+                enemyReturn.add (enemyIterator.next());
+            }
+
+            return enemyReturn;
+        }
     }
-    
+
     /**
      * Löschen eines Feindes.
      * 

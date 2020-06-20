@@ -5,7 +5,7 @@
  */
 public class ObjectSpeaker extends Object
 {
-    String content;
+    private String content;
     
     /**
      * Initialisierung der Variablen mit den übergebenen Werten.
