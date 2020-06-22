@@ -4,7 +4,7 @@ import java.util.Arrays;
 /**
  * Zentrale Klasse, die das Spiel leitet. Sie legt den Spielablauf fest, erstellt das Spielfeld und setzt die Steuerbefehle um.
  * 
- * @author Ragnar Fischer
+ * @author Ragnar Fischer & Tyll Heinen
  */
 public class GameMaker
 {
@@ -94,7 +94,7 @@ public class GameMaker
         System.out.println ("Falls du nicht weiter weißt, dann gib einfach mal 'Hilfe' ein.");
         System.out.println ("Wenn du keine Lust mehr haben solltest, dann gib einfach 'Beenden' ein");
         System.out.println ("Nun viel Erfolg und stirb am besten nicht!");
-        card();
+
     }
 
     //----------------- Steuerungsmethoden -----------------
@@ -104,6 +104,7 @@ public class GameMaker
      */
     private void help()
     {
+        System.out.println("");
         System.out.println ("Diese Anweisungen verstehe ich am besten: ");
         System.out.println ("'Hilfe'                       - Ich zeige dir welche Anweisungen ich am besten verstehe.");
         System.out.println ("'Beenden'                     - Wir beenden die Mission.");
@@ -191,6 +192,11 @@ public class GameMaker
      */
     private void use(String name)
     {
+        if ("Karte".equals(name))
+        {
+            card();
+            return;
+        }
         if (currentRoom.getObjectChangers() != null)
         {
             for (ObjectChanger objectChanger : currentRoom.getObjectChangers())
@@ -325,15 +331,15 @@ public class GameMaker
     public GameMaker()
     {
         //Räume
-        Room room1 = new Room ("Eingangshalle", 
-                "Ein Raum mit hohen Decken und großen Fenstern. Man hört ein leises plätschern und spürt einen kalten Windzug.",
-                new ArrayList<ObjectSpeaker> (Arrays.asList( new ObjectSpeaker ("Bernd Höcke", "Ein alter, dümmlicher Mann mit versteiftem Arm", "Endlich! Wir brauchen dringed hilfe, da drin sind die Trolle."), 
-                        new ObjectSpeaker ("Karte", "Ein leicht zerfleddertes Stück Pergament ", "Inhalt Objekt 2"))),
-                null,
-                new ArrayList<ObjectContainer> (Arrays.asList( new ObjectContainer ("NameObjekt5", "Beschreibung Objekt 5", 
-                            new ArrayList<ObjectSpeaker> (Arrays.asList( new ObjectSpeaker("NameA", "Beschreibung A", "Inhalt A"), 
-                                    new ObjectSpeaker("NameB", "Beschreibung B", "Inhalt B"))),
-                            null,
+        Room room1 = new Room (
+            "Eingangshalle", 
+            "Ein Raum mit hohen Decken und großen Fenstern. Man hört ein leises plätschern und spürt einen kalten Windzug.",
+            new ArrayList<ObjectSpeaker> (Arrays.asList( new ObjectSpeaker ("Atha-ulf", "Ein alter Mann mit einem leeren Blick.", "Endlich! Wir brauchen dringed hilfe, sprich mit meinen Freund Theoderich im Westen. Der weiß was zu tun ist!"))),
+            //new ArrayList<ObjectChanger>(),            
+            null,
+            new ArrayList<ObjectContainer> (Arrays.asList( new ObjectContainer ("Schrank", "Ein großer alter Schnrak an der Wand", 
+            new ArrayList<ObjectSpeaker> (Arrays.asList( new ObjectSpeaker ("Atha-ulf", "Ein alter Mann mit einem leeren Blick.", "Endlich! einekm Freund Theoderich im Westen. Der weiß was zu tun ist!"))),
+            new ArrayList<ObjectChanger> (Arrays.asList( new ObjectChanger ("Kettenhemd", "Ein wahrscheinlich lebensrettendes kettenhemd mit ein paar Blutspritzern...", new int[] {1,10}))),
                             null))),
                 null);
 

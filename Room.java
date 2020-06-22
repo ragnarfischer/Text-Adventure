@@ -125,7 +125,12 @@ public class Room
      */
     public void addObjectChanger(ObjectChanger objectChanger)
     {
-        objectChangers.add(objectChanger);
+        try {
+            objectChangers.add(objectChanger);
+        } catch (NullPointerException e)
+        {
+            System.out.println("Liste leer");
+        }
     }
 
     /**
