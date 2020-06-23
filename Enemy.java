@@ -1,3 +1,9 @@
+/**
+ * Beschreiben Sie hier die Klasse Enemy.
+ * 
+ * @author Tyll Heinen 
+ * 
+ */
 public class Enemy
 {
     private int attackDamage;
