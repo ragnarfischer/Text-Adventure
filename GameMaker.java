@@ -40,9 +40,15 @@ public class GameMaker
                 for (Enemy enemy : currentRoom.getEnemies())
                 {
                     fight(enemy.getName());
+                    
+                    if (quit == true)
+                    {
+                        return;
+                    }
                 }
             }
         }
+        
         String[] command = userInput.getCommand();
 
         switch (command[0])
@@ -53,10 +59,11 @@ public class GameMaker
             case "Umschauen":   lookAround();           break;
             case "Sprich":      speakTo(command[2]);    break;
             case "Lies":        speakTo(command[1]);    break;
+            case "Schaue":      card();                 break;
             case "Benutze":     use(command[1]);        break;
             case "Öffne":       open(command[1]);       break;
+            case "Inspiziere":  inspect(command[1]);    break;
             case "Prüfe":       checkAbilitys();        break;
-            case "Kämpfe":      fight(command[2]);      break;
             default:            System.out.println ("Bitte nochmal. Ich habe nicht ganz verstanden, was du machen möchtest.");
         }
     }
@@ -116,16 +123,17 @@ public class GameMaker
     {
         System.out.println("");
         System.out.println ("Diese Anweisungen verstehe ich am besten: ");
-        System.out.println ("'Hilfe'                       - Ich zeige dir welche Anweisungen ich am besten verstehe.");
-        System.out.println ("'Beenden'                     - Wir beenden die Mission.");
-        System.out.println ("'Gehe nach (Himmelsrichtung)' - Ich verlasse den Raum in die angegebene Richtung.");
-        System.out.println ("'Umschauen'                   - Ich sage dir, was ich sehe.");
-        System.out.println ("'Sprich mit (Name)'           - Ich spreche die angegebe Person an und höre, ob sie etwas interessantes zu sagen hat.");
-        System.out.println ("'Lies (Gegenstand)'           - Ich lese dir vor, was auf dem angegebenen Gegenstand steht.");
-        System.out.println ("'Benutze (Gegenstand)'        - Ich benutze den angegeben Gegenstand.");
-        System.out.println ("'Öffne (Gegenstand)'          - Ich öffne den angegebenen Gegenstand, sage dir was sich darin befindet und nehme es heraus.");
-        System.out.println ("'Prüfe meine Fähigkeiten'     - Ich überprüfe wie gut meine Waffe und meine Rüstung momentan ist.");
-        System.out.println ("'Kämpfe mit (Name)'           - Ich beginne einen Kampf mit dem angegebenen Gegner.");
+        System.out.println ("'Hilfe'                           - Ich zeige dir welche Anweisungen ich am besten verstehe.");
+        System.out.println ("'Beenden'                         - Wir beenden die Mission.");
+        System.out.println ("'Gehe nach (Himmelsrichtung)'     - Ich verlasse den Raum in die angegebene Richtung.");
+        System.out.println ("'Umschauen'                       - Ich sage dir, was ich sehe.");
+        System.out.println ("'Sprich mit (Name)'               - Ich spreche die angegebe Person an und höre, ob sie etwas interessantes zu sagen hat.");
+        System.out.println ("'Lies (Gegenstand)'               - Ich lese dir vor, was auf dem angegebenen Gegenstand steht.");
+        System.out.println ("'Benutze (Gegenstand)'            - Ich benutze den angegeben Gegenstand.");
+        System.out.println ("'Öffne (Gegenstand)'              - Ich öffne den angegebenen Gegenstand, sage dir was sich darin befindet und nehme es heraus.");
+        System.out.println ("'Inspiziere (Gegenstand) genauer' - Ich erkläre dir, genau, was ich sehe.");
+        System.out.println ("'Prüfe meine Fähigkeiten'         - Ich überprüfe wie gut meine Waffe und meine Rüstung momentan ist.");
+        System.out.println ("'Schaue auf die Karte'            - Ich zeige dir eine Übersicht über das Gebäude.");
     }
 
     /**
@@ -142,7 +150,7 @@ public class GameMaker
                 if (exit.getDirection().equals(direction))
                 {
                     currentRoom = exit.getDestination();
-                    System.out.println ("Du bist nun in" + currentRoom.getName());
+                    System.out.println ("Du bist nun in " + currentRoom.getName());
                     return;
                 }
             }
@@ -203,11 +211,6 @@ public class GameMaker
      */
     private void use(String name)
     {
-        if ("Karte".equals(name))
-        {
-            card();
-            return;
-        }
         if(currentRoom.getObjectChangers().size() > 0)
         {
             for (ObjectChanger objectChanger : currentRoom.getObjectChangers())
@@ -220,13 +223,31 @@ public class GameMaker
                         case 2: player.setArmor(player.getArmor() + objectChanger.getContent()[1]);                  break;
                         default: System.out.println("Entschuldigung, irgendwie ist mir ein Fehler passiert.");
                     }
+                    System.out.println ("Du hast " + objectChanger.getName() + " benutzt.");
                     currentRoom.removeObjectChanger(objectChanger);
                     objectChanger.setContent();
+                    
+                    return;
                 }
-                return;
             }
-            System.out.println ("Bitte nochmal. Ich habe nicht ganz verstanden, was du benutzen möchtest.");
         }
+        System.out.println ("Bitte nochmal. Ich habe nicht ganz verstanden, was du benutzen möchtest.");
+    }
+    
+    private void inspect (String name)
+    {
+        if (currentRoom.getObjects().size() > 0)
+        {
+            for (Object object : currentRoom.getObjects())
+            {
+                if (object.getName().equals(name))
+                {
+                    System.out.println (object.getDescription());
+                    return;
+                }
+            }
+        }
+        System.out.println ("Bitte nochmal. Ich habe nicht ganz verstanden, was du inspizieren möchtest.");
     }
 
     /**
@@ -321,11 +342,18 @@ public class GameMaker
                     score = score + (player.getArmor() - enemy.getAttackDamage());
                     score = score + (player.getAttackDamage() - enemy.getArmor());
 
+                    System.out.println(".....");
                     long currentTime = System.currentTimeMillis();
                     while (System.currentTimeMillis() < currentTime + 3000) { }
 
                     if (score > 0) {
                         System.out.println ("Gewonnen gegen " + enemy.getName());
+
+                        if (enemy.getName() == "Trollkönig")
+                        {
+                            System.out.println ("Super! Wir haben es geschafft! Alle Trolle sind tot!");
+                            quit = true;
+                        }
                         currentRoom.removeEnemy(enemy);
                     }
                     else if (score == 0) {
@@ -343,6 +371,30 @@ public class GameMaker
         System.out.println ("Bitte nochmal. Ich habe nicht ganz verstanden, gegen wen du kämpfen möchtest.");
     }
 
+    public void card()
+    { 
+        System.out.println(""); 
+        System.out.println("Hier siehst du die Karte, das O markiert deinen Startpunkt und die markierten Stellen mit dem x kannst du nicht betreten:");  
+        System.out.println(""); 
+        System.out.println("                                 ------------");  
+        System.out.println("                                |            |");
+        System.out.println("                                |            |");
+        System.out.println("                                |            |");  
+        System.out.println("           ---------- ---------- --------------------");
+        System.out.println("          |          |                               |");
+        System.out.println("          |          |                               |");
+        System.out.println("          |           --------------------------------------------------------------");
+        System.out.println("          |          | xxxxxxxxxxxxxxxxxxxxxx|            |            |            |");
+        System.out.println("          |--------------------------------|x|            |            |            |");
+        System.out.println(" ---------|                                |x|            |            |            |");
+        System.out.println("|         |                                |x|--------------------------------------");
+        System.out.println("|         |  O                             |-|          |");
+        System.out.println("|         |                                  |          |");
+        System.out.println(" ---------|                                  |          |");
+        System.out.println("          |                                  |          |");
+        System.out.println("           ---------------------------------------------");
+    }
+
     //----------------- Spielaufbau -----------------
 
     /**
@@ -356,54 +408,55 @@ public class GameMaker
                 "Ein Raum mit hohen Decken und großen Fenstern. Man hört ein leises plätschern und spürt einen kalten Windzug.",
                 new ArrayList<ObjectSpeaker> (Arrays.asList( new ObjectSpeaker ("Atha-ulf", "Ein alter Mann mit einem leeren Blick.", "Endlich! Wir brauchen dringed hilfe, sprich mit meinen Freund Theoderich im Westen. Der weiß was zu tun ist!"))),
 
-                new ArrayList<ObjectChanger> (Arrays.asList()), //leeres Objekt das übergeben werden muss, um nachher drauf zugreifen zu können
+                new ArrayList<ObjectChanger> (), //leeres Objekt das übergeben werden muss, um nachher drauf zugreifen zu können
 
                 new ArrayList<ObjectContainer> (Arrays.asList( new ObjectContainer ("Schrank", "Ein großer alter Schnrak an der Wand", 
                             null,
                             new ArrayList<ObjectChanger> (Arrays.asList( new ObjectChanger ("Kettenhemd", "Ein wahrscheinlich lebensrettendes kettenhemd mit ein paar Blutspritzern...", new int[] {2, 10}))),
                             null //ObjektContainer 
                         ))),
-                null // Enemies
+                new ArrayList<Enemy> () // Enemies
             );
 
         Room room2 = new Room (
                 "dem Garten", 
                 "Ein vermodertes, hochgewachsenes Gras bedeckt den runden Boden und ist von verwucherten Tannen umgeben. Eine Bank steht in einer Ecke und auf jener Sitzt ein alter Herr.",
                 new ArrayList<ObjectSpeaker> (Arrays.asList( new ObjectSpeaker ("Theoderich", "Ein alter Herr mit zerfledderten Klamotten und einem debilen Blick", "Hallo, wir brauchen unbedingt deine Hilfe bei der Befreiung von Geiseln. Die Trolle halten sie im Kerker gefangen, um Getreide von uns zu bekommen. Um in den Kerker zu kommen, musst du durch die Eingangshalle nach Osten, dann in die Küche, dann nach Norden in die Waffenkammer und dann nach Osten in den Kerker. Sei auf der Hut, Trolle sind sehr kampfwütig. Schau dich am besten nochmal um, vielleicht findest du ja eine bessere Waffe, oder bessere Rüstung"))),
-                null,
-                null,
-                null);
+                new ArrayList<ObjectChanger> (),
+                new ArrayList<ObjectContainer> (),
+                new ArrayList<Enemy> ());
 
         Room room3 = new Room ("der Schlafkammer", 
                 "Ein kleiner Raum mit einem Bett voller Wanzen, einem dazugehörigen Nachtschrank und einem Schrank an der Wand, der früher mal ein Kleiderschrank gewesen sein könnte.",
-                null,
-                new ArrayList<ObjectChanger> (Arrays.asList()),//leeres Objekt das übergeben werden muss, um nachher drauf zugreifen zu können
+                new ArrayList<ObjectSpeaker> (),
+                new ArrayList<ObjectChanger> (),//leeres Objekt das übergeben werden muss, um nachher drauf zugreifen zu können
                 new ArrayList<ObjectContainer> (Arrays.asList( new ObjectContainer ("Schrank", "Ein großer alter Schnrak an der Wand", 
-                            null,
+                            new ArrayList<ObjectSpeaker> (Arrays.asList( new ObjectSpeaker ("Zettel", "Ein kleiner zerknitterter Zettel", "Hast du nichts übersehen? In der Eingangshalle vielleicht?"))),
                             new ArrayList<ObjectChanger> (Arrays.asList( new ObjectChanger ("Dolch", "Ein ellenlanges Messer mit scharfen Seiten und einem schönen Griff", new int[] {1, 10}))),
                             null //ObjektContainer 
                         ))),
 
-                null);
+                new ArrayList<Enemy> ());
 
         Room room4 = new Room ("der Küche", 
                 "Ein Gerucht von verwesung schlägt dir entgegen. Auf der Arbeitsfläche sieht man Schimmel, der sich breit macht. Unter der Arbeitsfläche befinden sich Schubladen und auf der anderen Seite des Raumes eine kleine Truhe.",
-                null,
-                new ArrayList<ObjectChanger> (Arrays.asList()),
-                new ArrayList<ObjectContainer> (Arrays.asList( new ObjectContainer ("Schrank", "Ein großer alter Schnrak an der Wand", 
-                            null,
+                new ArrayList<ObjectSpeaker> (),
+                new ArrayList<ObjectChanger> (),
+                new ArrayList<ObjectContainer> (Arrays.asList( new ObjectContainer ("Truhe", "Ein kleine Truhe an der Wand", 
+                            new ArrayList<ObjectSpeaker> (Arrays.asList( new ObjectSpeaker ("Brieffetzen", "Ein kleines Stück von einem Brief.", ".... Wir werden kommen! Verlassen Sie sich drauf! .... Sie werden bald untergehen! ...."),
+                                                                         new ObjectSpeaker ("Brieffetzen", "Ein kleines Stück von einem Brief.", ".... Mit überaus unfreundlichen Grüßen, Trollkönig"))),
                             new ArrayList<ObjectChanger> (Arrays.asList( new ObjectChanger ("Wurfmesser", "Ein paar kleine Messer, die leicht in der Hand liegen und sicher schön zu werfen sind.", new int[] {1, 10}))),
                             null //ObjektContainer 
                         ))),
-                null);
+                new ArrayList<Enemy> ());
 
         Room room5 = new Room ("der Waffenkammer", 
                 "An der Wand stehen Ständer, in denen früher mal die Waffen gestanden haben. Und ein kleines Rinnsaal aus Blut läuft an dir vorbei.",
-                null,
-                new ArrayList<ObjectChanger> (Arrays.asList()),
+                new ArrayList<ObjectSpeaker> (),
+                new ArrayList<ObjectChanger> (),
                 new ArrayList<ObjectContainer> (Arrays.asList( new ObjectContainer ("Tasche", "Eine große Tasche, die der Troll wahrscheinlich stehen lassen hat.", 
                             null,
-                            new ArrayList<ObjectChanger> (Arrays.asList( new ObjectChanger ("Griff", "Ein Grill, der sich perfekt an deine Hand anpasst und sich sehr leicht auf deine Waffe draufstecken lässt.", new int[] {1, 10}))),
+                            new ArrayList<ObjectChanger> (Arrays.asList( new ObjectChanger ("Schwertgriff", "Ein Grill, der sich perfekt an deine Hand anpasst und sich sehr leicht auf deine Waffe draufstecken lässt.", new int[] {1, 10}))),
                             null //ObjektContainer 
                         ))),
                 new ArrayList<Enemy> (Arrays.asList( new Enemy ("Stilicho", 120, 40, "Ein hochgewachsener Troll mit einem krummen Rücken und spitzen Ohren.", "Wieder Menschenabschaum! Dir zeig ich was ein Troll mit Mistvieh macht!"))));
@@ -411,31 +464,31 @@ public class GameMaker
         Room room6 = new Room ("dem Flur", 
                 "Ein langgezogener Raum mit kaputten Fenstern und einem zerrissenen Banner.",
                 new ArrayList<ObjectSpeaker> (Arrays.asList( new ObjectSpeaker ("Alarich", "Ein Mann, der zusammengekauert in der Ecke sitzt. Auch er sieht ungepflegt aus.", "Bitte wir brauchen deine Hilfe! Hier im Nebenraum ist der Troll-König. Ich hoffe du bist gut genug ausgestattet!"))),
-                new ArrayList<ObjectChanger> (Arrays.asList()),
-                null,
-                null);
+                new ArrayList<ObjectChanger> (),
+                new ArrayList<ObjectContainer> (),
+                new ArrayList<Enemy> ());
 
         Room room7 = new Room ("dem Verließ", 
                 "Ein kleiner, tiefer Raum mit Ketten an der Wand, an denen sicher Leute gefangen waren.",
                 new ArrayList<ObjectSpeaker> (Arrays.asList( new ObjectSpeaker ("Eurich", "Ein nun entfesselter Mann auf knien.", "Vielen dank für die Rettung! Wir stehen für ewig in eurer Schuld."))),
-                new ArrayList<ObjectChanger> (Arrays.asList()),
-                null,
-                null);
+                new ArrayList<ObjectChanger> (),
+                new ArrayList<ObjectContainer> (),
+                new ArrayList<Enemy> ());
 
         Room room8 = new Room ("der Besenkammer","Ein kleines Kabuff, mit einem Besen und einem Eimer mit komischem Inhalt.",
-                null,
-                new ArrayList<ObjectChanger> (Arrays.asList()),
+                new ArrayList<ObjectSpeaker> (Arrays.asList( new ObjectSpeaker ("Pidumel", "Eine änglstliche alte Frau.", "HILFE! HIIIILFEEEE!"))),
+                new ArrayList<ObjectChanger> (),
                 new ArrayList<ObjectContainer> (Arrays.asList( new ObjectContainer ("Schrank", "Ein kleiner Schrank an der Wand.", 
                             null,
                             new ArrayList<ObjectChanger> (Arrays.asList( new ObjectChanger ("Eisenhandschuhe", "Eisenhandschuhe zum Schutz ", new int[] {2, 10}))),
                             null //ObjektContainer 
                         ))),
-                null);
+                new ArrayList<Enemy> ());
 
         Room room9 = new Room ("dem Thronsaal","Ein großer Saal, der früher prächtig ausgesehen haben muss, nun aber sehr runtergekommen ist. Es steht ein großer Thron am Ende einer Steintreppe, der ganz aus Gold ist.",
-                null,
-                null,
-                null,
+                new ArrayList<ObjectSpeaker> (),
+                new ArrayList<ObjectChanger> (),
+                new ArrayList<ObjectContainer> (),
                 new ArrayList<Enemy> (Arrays.asList( new Enemy ("Trollkönig", 90, 100, "Ein fetter großer Troll mit einer Käule.", "Du dringst hier in meine Festung ein und störrst nun auch mich?! Dafür wirst du in unserem Kerker leiden!"))));
 
         //Ausgänge
@@ -467,29 +520,5 @@ public class GameMaker
         room9.addExit (new Exit ("Süden", room6));
 
         currentRoom = room1;
-    }
-
-    public void card()
-    { 
-        System.out.println(""); 
-        System.out.println("Hier siehst du die Karte, das O markiert deinen Startpunkt und die markierten Stellen mit dem x kannst du nicht betreten:");  
-        System.out.println(""); 
-        System.out.println("                                 ------------");  
-        System.out.println("                                |            |");
-        System.out.println("                                |            |");
-        System.out.println("                                |            |");  
-        System.out.println("           ---------- ---------- --------------------");
-        System.out.println("          |          |                               |");
-        System.out.println("          |          |                               |");
-        System.out.println("          |           --------------------------------------------------------------");
-        System.out.println("          |          | xxxxxxxxxxxxxxxxxxxxxx|            |            |            |");
-        System.out.println("          |--------------------------------|x|            |            |            |");
-        System.out.println(" ---------|                                |x|            |            |            |");
-        System.out.println("|         |                                |x|--------------------------------------");
-        System.out.println("|         |  O                             |-|          |");
-        System.out.println("|         |                                  |          |");
-        System.out.println(" ---------|                                  |          |");
-        System.out.println("          |                                  |          |");
-        System.out.println("           ---------------------------------------------");
     }
 }
