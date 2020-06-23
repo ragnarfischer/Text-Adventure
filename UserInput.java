@@ -1,5 +1,10 @@
 import java.util.Scanner;
-
+/**
+ * Beschreiben Sie hier die Klasse UserInput.
+ * 
+ * @author Tyll Heinen 
+ * 
+ */
 public class UserInput
 {
     private Scanner reader;         // Lieferant für eingegebene Befehle

@@ -21,6 +21,11 @@ public class ObjectChanger extends Object
         type = 2;
     }
     
+    public void setContent()
+    {
+        content[0] = -1;
+    }
+    
     /**
      * @return Wert, den das Objekt beeinhaltet.
      */

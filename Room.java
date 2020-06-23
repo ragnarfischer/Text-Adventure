@@ -15,6 +15,7 @@ public class Room
     private ArrayList<ObjectContainer> objectContainers;
     private ArrayList<Enemy> enemies;
     private ArrayList<Exit> exits = new ArrayList<Exit>();
+    private boolean alreadyOpened = false;
 
     /**
      * Initialisierung der Variablen mit den übergebenen Werten.
@@ -178,7 +179,22 @@ public class Room
     {
         enemies.remove(enemy);
     }
+    
+    public void removeObjectChanger(ObjectChanger objectChanger)
+    {
+        objectChangers.remove(objectChanger);
+    }
 
+    public boolean getAlreadyOpened()
+    {
+        return alreadyOpened;
+    }
+    
+    public void setAlreadyOpened()
+    {
+        alreadyOpened = true;
+    }
+    
     /**
      * @return Ausgänge des Raums.
      */

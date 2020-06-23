@@ -28,28 +28,28 @@ public class ObjectContainer extends Object
         this.contentContainer = contentContainer;
         type = 3;
     }
-    
+
     /**
      * @return Alle Objekte jeglicher Art, die das Objekt beinhaltet.
      */
     public ArrayList<Object> getContent()
     {
         ArrayList<Object> content = new ArrayList<Object>();
-        if (contentSpeaker != null)
+        if (contentSpeaker.size() > 0)
         {
             for (ObjectSpeaker objectSpeaker : contentSpeaker)
             {
                 content.add(objectSpeaker);
             }
         }
-        if (contentChanger != null)
+        if (contentChanger.size() > 0)
         {
             for (ObjectChanger objectChanger : contentChanger)
             {
                 content.add(objectChanger);
             }
         }
-        if (contentContainer != null)
+        if (contentContainer.size() > 0)
         {
             for (ObjectContainer objectContainer : contentContainer)
             {
@@ -63,7 +63,7 @@ public class ObjectContainer extends Object
      * @return Alle Objekte die das Objekt beinhaltet, die einen Text beinhalten.
      */
     public ArrayList<ObjectSpeaker> getContentSpeaker()
-    {
+    { 
         return contentSpeaker;
     }
 
@@ -74,7 +74,7 @@ public class ObjectContainer extends Object
     {
         return contentChanger;
     }
-    
+
     /**
      * @return Alle Objekte die das Objekt beinhaltet, die weitere Objekte beinhalten. WOW! :D
      */
