@@ -72,15 +72,14 @@ public class GameMaker
      */
     private void introduction()
     {
-        System.out.println("Wilkommen in dem Schloss der Trolle, du bist ein gesandter des Königs und hast die Aufgabe das Schloss von den Feinden zu säubern.");
+        System.out.println("Wilkommen in dem Schloss der Trolle, du spielst einen gesandten des Königs und hast die Aufgabe das Schloss von den Feinden zu säubern.");
         System.out.println("");
-        System.out.println("Du kannst, indem du versteckte Items findest deine Rüstung, deinen Nahkampfwert verbessern.");
-        System.out.println("Außerdem kannst du deine Energie nach einem Kampf mit Zaubertränken wieder auffüllen.");
+        System.out.println("Du kannst, indem du versteckte Items findest die Rüstung, den Nahkampfwert deines Spielers verbessern.");
         System.out.println("");
         System.out.println("Du hast nun die Auswahl zwischen 3 Figuren.");
         System.out.println("Entweder du wählst einen ehrenvollen Krieger mit dicker Rüstung und breitem Schwert,");
         System.out.println("oder einen Bogenschützen mit dünner Lederrüstung und messerscharfen Pfeilspitzen,"); 
-        System.out.println("oder einen Magier mit einem spitzen Hut, einem Zauberstab und einem modrig riechenden Gewand.");
+        System.out.println("oder einen Magier mit einem spitzen Hut, einem Zauberstab und einem etwas modrig riechenden Gewand.");
         System.out.println("");
         System.out.println("Bitte gib nun ein, entweder Ritter, Bogenschütze, oder Magier");
     }
@@ -109,7 +108,7 @@ public class GameMaker
     {
         System.out.println ("");
         System.out.println ("Falls du nicht weiter weißt, dann gib einfach mal 'Hilfe' ein.");
-        System.out.println ("Wenn du keine Lust mehr haben solltest, dann gib einfach 'Beenden' ein");
+        System.out.println ("Wenn du keine Lust mehr haben solltest, dann gib einfach 'Beenden' ein und wir beenden die Mission.");
         System.out.println ("Nun viel Erfolg und stirb am besten nicht!");
     }
 
@@ -256,36 +255,39 @@ public class GameMaker
     {
         if (currentRoom.getObjectContainers().size() > 0) {
             for (ObjectContainer objectContainer : currentRoom.getObjectContainers()) {
-                if (objectContainer.getName().equals(name) && objectContainer.getContentSpeaker() != null) {
+                if (objectContainer.getName().equals(name)) {
                     System.out.print ("Hier drin befinden sich: ");
-                    for (ObjectSpeaker objectSpeaker : objectContainer.getContentSpeaker()) {
-                        System.out.print(objectSpeaker.getName() + ", ");
-                        if(!objectContainer.getOpened()) {
-                            currentRoom.addObjectSpeaker(objectSpeaker);
-                        }
-                    }
-                }
-                if( objectContainer.getContentChanger().size() > 0) {
-                    for (ObjectChanger objectChanger : objectContainer.getContentChanger()) {
-                        if(objectChanger.getVisibility()) {
-                            System.out.print(objectChanger.getName() + ", ");
+                    if (objectContainer.getContentSpeaker() != null) {
+
+                        for (ObjectSpeaker objectSpeaker : objectContainer.getContentSpeaker()) {
+                            System.out.print(objectSpeaker.getName() + ", ");
                             if(!objectContainer.getOpened()) {
-                                currentRoom.addObjectChanger(objectChanger);
+                                currentRoom.addObjectSpeaker(objectSpeaker);
                             }
                         }
                     }
-                }
-                if( objectContainer.getContentContainer() != null) {
-                    for (ObjectContainer objectContainerContent : objectContainer.getContentContainer()) {
-                        System.out.print(objectContainerContent.getName() + ", ");
-                        if(!objectContainer.getOpened()) {
-                            currentRoom.addObjectContainer(objectContainer);
+                    if( objectContainer.getContentChanger().size() > 0) {
+                        for (ObjectChanger objectChanger : objectContainer.getContentChanger()) {
+                            if(objectChanger.getVisibility()) {
+                                System.out.print(objectChanger.getName() + ", ");
+                                if(!objectContainer.getOpened()) {
+                                    currentRoom.addObjectChanger(objectChanger);
+                                }
+                            }
                         }
                     }
+                    if( objectContainer.getContentContainer() != null) {
+                        for (ObjectContainer objectContainerContent : objectContainer.getContentContainer()) {
+                            System.out.print(objectContainerContent.getName() + ", ");
+                            if(!objectContainer.getOpened()) {
+                                currentRoom.addObjectContainer(objectContainer);
+                            }
+                        }
+                    }
+                    System.out.println ("Luft.");                    
+                    objectContainer.setOpened(true);
+                    return;
                 }
-                System.out.println ("Luft.");                    
-                objectContainer.setOpened(true);
-                return;
             }
         }
         System.out.println ("Bitte nochmal. Ich habe nicht ganz verstanden, was du öffnen möchtest.");
@@ -355,8 +357,9 @@ public class GameMaker
     public void card()
     { 
         System.out.println(""); 
-        System.out.println("Hier siehst du die Karte, das O markiert deinen Startpunkt und die markierten Stellen mit dem x kannst du nicht betreten:");  
-        System.out.println(""); 
+        System.out.println("Hier siehst du die Karte, das O markiert den Startpunkt deines Charakters und die markierten Stellen ");  
+        System.out.println("mit dem x kann man nicht betreten:"); 
+        System.out.println("");
         System.out.println("                                 ------------");  
         System.out.println("                                |            |");
         System.out.println("                                |            |");
@@ -374,6 +377,7 @@ public class GameMaker
         System.out.println(" ---------|                                  |          |");
         System.out.println("          |                                  |          |");
         System.out.println("           ---------------------------------------------");
+        System.out.println("");
     }
 
     //----------------- Spielaufbau -----------------
@@ -389,7 +393,7 @@ public class GameMaker
         Room room1 = new Room (
                 "der Eingangshalle", 
                 "Ein Raum mit hohen Decken und großen Fenstern. Man hört ein leises plätschern und spürt einen kalten Windzug.",
-                new ArrayList<ObjectSpeaker> (Arrays.asList( new ObjectSpeaker ("Atha-ulf", "Ein alter Mann mit einem leeren Blick.", "Endlich! Wir brauchen dringed hilfe, sprich mit meinen Freund Theoderich im Westen. Der weiß was zu tun ist!"))),
+                new ArrayList<ObjectSpeaker> (Arrays.asList( new ObjectSpeaker ("Atha-ulf", "Ein alter Mann mit einem leeren Blick.", "Endlich! Wir brauchen dringed Hilfe, sprich mit meinen Freund Theoderich im Westen. Der weiß was zu tun ist!"))),
 
                 new ArrayList<ObjectChanger> (), //leeres Objekt das übergeben werden muss, um nachher drauf zugreifen zu können
 
@@ -439,7 +443,7 @@ public class GameMaker
                 new ArrayList<ObjectChanger> (),
                 new ArrayList<ObjectContainer> (Arrays.asList( new ObjectContainer ("Tasche", "Eine große Tasche, die der Troll wahrscheinlich stehen lassen hat.", 
                             null,
-                            new ArrayList<ObjectChanger> (Arrays.asList( new ObjectChanger ("Schwertgriff", "Ein Grill, der sich perfekt an deine Hand anpasst und sich sehr leicht auf deine Waffe draufstecken lässt.", new int[] {1, 10}))),
+                            new ArrayList<ObjectChanger> (Arrays.asList( new ObjectChanger ("Waffengriff", "Ein Grill, der sich perfekt an deine Hand anpasst und sich sehr leicht auf deine Waffe draufstecken lässt.", new int[] {1, 10}))),
                             null //ObjektContainer 
                         ))),
                 new ArrayList<Enemy> (Arrays.asList( new Enemy ("Stilicho", 120, 40, "Ein hochgewachsener Troll mit einem krummen Rücken und spitzen Ohren.", "Wieder Menschenabschaum! Dir zeig ich was ein Troll mit Mistvieh macht!"))));
@@ -502,6 +506,6 @@ public class GameMaker
 
         room9.addExit (new Exit ("Süden", room6));
 
-        currentRoom = room1;
+        currentRoom = room1; //aktueller Raum
     }
 }
