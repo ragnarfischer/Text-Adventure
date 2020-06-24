@@ -1,6 +1,6 @@
 import java.util.Scanner;
 /**
- * Beschreiben Sie hier die Klasse UserInput.
+ * Die Klasse zerlegt die Eingabe des Users und gibt sie als Array aus, damit es weiterverarbeitet werden kann.
  * 
  * @author Tyll Heinen 
  * 
@@ -18,7 +18,7 @@ public class UserInput
     }
 
     /**
-     * @return  den nächsten Befehl des Benutzers
+     * @return den nächsten Befehl des Benutzers
      */
     public String[] getCommand() 
     {
@@ -31,32 +31,20 @@ public class UserInput
 
         inputline = reader.nextLine();
 
-        // Finde bis zu zwei Wörter in der Zeile
+        // Finde bis zu drei Wörter in der Zeile
         Scanner cutter = new Scanner(inputline);
         if(cutter.hasNext()) {
             word1 = cutter.next();     // erstes Wort lesen: Buchstaben bis zum nächsten Leerzeichen/Return
             if (cutter.hasNext()) {
                 word2 = cutter.next();    // zweites Wort lesen: Buchstaben bis zum nächsten Leerzeichen/Return
                 if (cutter.hasNext()) {
-                    word3 = cutter.next();    // zweites Wort lesen: Buchstaben bis zum nächsten Leerzeichen/Return
+                    word3 = cutter.next();    // drittes Wort lesen: Buchstaben bis zum nächsten Leerzeichen/Return
                     // Hinweis: Wir ignorieren den Rest der Eingabezeile.
                 }
             }
         }
 
-        // Jetzt prüfen, ob der Befehl bekannt ist. Wenn ja, erzeugen
-        // wir das passende Befehl-Objekt. Wenn nicht, erzeugen wir
-        // einen unbekannten Befehl mit 'null'.
-
         String[] commands = {word1, word2, word3};
         return commands;
-    }
-
-    /**
-     * Gib eine Liste der bekannten Befehlswörter aus.
-     */
-    public void showCommand()
-    {
-        //ControlCommand.showAllCommands();
     }
 }
