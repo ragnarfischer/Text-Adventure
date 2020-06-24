@@ -15,6 +15,8 @@ public class GameMaker
 
     /**
      * Zentrale Methode, die vom Nutzer aufgerufen wird. Sie beinhaltet den Spielablauf.
+     * 
+     * @author Ragnar Fischer
      */
     public void play()
     {
@@ -29,7 +31,9 @@ public class GameMaker
     }
 
     /**
-     * Verarbeitung des Befehlsstrings
+     * Aufruf der Aktionsmethoden basierend auf der Anwesenheit von Gegnern oder dem eingegebenen Befehlsstring.
+     * 
+     * @author Ragnar Fischer & Tyll Heinen
      */
     private void execute ()
     {
@@ -72,6 +76,8 @@ public class GameMaker
 
     /**
      * Der Erzähler stellt sich vor, es wird in die Geschichte eingeleitet, die zur Auswahl stehenden Charaktere werden beschrieben.
+     * 
+     * @author Tyll Heinen
      */
     private void introduction()
     {
@@ -90,6 +96,8 @@ public class GameMaker
 
     /**
      * Verarbeitung der Character-Auswahl
+     * 
+     * @author Ragnar Fischer
      */
     private void choosePlayer()
     {
@@ -104,6 +112,8 @@ public class GameMaker
 
     /**
      * Letzte Tipps an den Spieler, wie ein Verweis auf den Hilfe- und Beenden-Befehl.
+     * 
+     * @author Tyll Heinen
      */
     private void lastHints()
     {
@@ -118,6 +128,8 @@ public class GameMaker
 
     /**
      * Auflistung aller Befehle mit einer Beschreibung.
+     * 
+     * @author Ragnar Fischer
      */
     private void help()
     {
@@ -138,8 +150,9 @@ public class GameMaker
 
     /**
      * Wechsel des Raumes
-     * 
      * @param direction Richtung, in die der momentane Raum verlassen wird.
+     * 
+     * @author Ragnar Fischer
      */
     private void changeRoom(String direction)
     {
@@ -160,6 +173,8 @@ public class GameMaker
 
     /**
      * Wiedergabe der Raumbeschreibung, Namen aller im Raum befindlichen Gegenstände und Gegner
+     * 
+     * @author Ragnar Fischer
      */
     private void lookAround()
     {
@@ -185,8 +200,9 @@ public class GameMaker
 
     /**
      * Wiedergabe des Inhaltes eines Objektes, das einen String beinhaltet
-     * 
      * @param name Name des angesprochenen Objektes
+     * 
+     * @author Ragnar Fischer
      */
     private void speakTo (String name)
     {
@@ -205,9 +221,10 @@ public class GameMaker
     }
 
     /**
-     * Anwendung des Inhaltes eines Objektes, das einen Wert beinhaltet
-     * 
+     * Anwendung des Inhaltes eines Objektes, das einen Wert beinhaltet und anschließendes löschen des Objektes aus Raum und Kiste
      * @param name Name des angesprochenen Objektes
+     * 
+     * @author Ragnar Fischer & Tyll Heinen
      */
     private void use(String name)
     {
@@ -226,7 +243,6 @@ public class GameMaker
                     System.out.println ("Du hast " + objectChanger.getName() + " benutzt.");
                     currentRoom.removeObjectChanger(objectChanger);
                     objectChanger.setContent();
-                    
                     return;
                 }
             }
@@ -234,6 +250,11 @@ public class GameMaker
         System.out.println ("Bitte nochmal. Ich habe nicht ganz verstanden, was du benutzen möchtest.");
     }
     
+    /**
+     * Wiedergabe der Beschreibung eines Objektes.
+     * 
+     * @author Ragnar Fischer
+     */
     private void inspect (String name)
     {
         if (currentRoom.getObjects().size() > 0)
@@ -252,8 +273,9 @@ public class GameMaker
 
     /**
      * Aufzählen und Auspacken der Inhalte eines Objektes, das weitere Objekte beinhaltet
-     * 
      * @param name Name des angesprochenen Objektes
+     * 
+     * @author Ragnar Fischer
      */
     private void open(String name)
     {
@@ -312,6 +334,8 @@ public class GameMaker
 
     /**
      * Wiedergabe der momentanen Eigenschaften des Charakters
+     * 
+     * @author Ragnar Fischer
      */
     private void checkAbilitys()
     {
@@ -321,9 +345,11 @@ public class GameMaker
     }
 
     /**
-     * Vergleich der Eigenschaften des Charakters und des genannten Gegners. Je nach Ergebis: löschen des Gegners, keine Veränderung oder beenden des Spiels.
-     * 
+     * Vergleich der Eigenschaften des Charakters und des genannten Gegners. Je nach Ergebis: löschen des Gegners, keine Veränderung 
+     * oder beenden des Spiels.
      * @param name Name des angesprochenen Gegners
+     * 
+     * @author Ragnar Fischer
      */
     private void fight (String name)
     {
@@ -371,6 +397,11 @@ public class GameMaker
         System.out.println ("Bitte nochmal. Ich habe nicht ganz verstanden, gegen wen du kämpfen möchtest.");
     }
 
+    /**
+     * Wiedergeben der Übersichtskarte über das Spielfeld
+     * 
+     * @author Tyll Heinen
+     */
     public void card()
     { 
         System.out.println(""); 
@@ -399,6 +430,8 @@ public class GameMaker
 
     /**
      * Aufbau des Spiels mit Räumen (mit Inhalt) und Ausgängen. Festlegen des Startraums.
+     * 
+     * @author Ragnar Fischer & Tyll Heinen
      */
     public GameMaker()
     {
