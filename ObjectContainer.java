@@ -34,28 +34,24 @@ public class ObjectContainer extends Object
      */
     public ArrayList<Object> getContent()
     {
-        ArrayList<Object> content = new ArrayList<Object>();
-        if (contentSpeaker.size() > 0)
-        {
-            for (ObjectSpeaker objectSpeaker : contentSpeaker)
-            {
+        ArrayList<Object> content = new ArrayList<>();
+        
+        if (contentSpeaker.size() > 0) {
+            for (ObjectSpeaker objectSpeaker : contentSpeaker) {
                 content.add(objectSpeaker);
             }
         }
-        if (contentChanger.size() > 0)
-        {
-            for (ObjectChanger objectChanger : contentChanger)
-            {
+        if (contentChanger.size() > 0) {
+            for (ObjectChanger objectChanger : contentChanger) {
                 content.add(objectChanger);
             }
         }
-        if (contentContainer.size() > 0)
-        {
-            for (ObjectContainer objectContainer : contentContainer)
-            {
+        if (contentContainer.size() > 0) {
+            for (ObjectContainer objectContainer : contentContainer) {
                 content.add(objectContainer);
             }
         }
+        
         return content;
     }
 

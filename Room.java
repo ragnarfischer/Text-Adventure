@@ -14,7 +14,7 @@ public class Room
     private ArrayList<ObjectChanger> objectChangers;
     private ArrayList<ObjectContainer> objectContainers;
     private ArrayList<Enemy> enemies;
-    private ArrayList<Exit> exits = new ArrayList<Exit>();
+    private ArrayList<Exit> exits = new ArrayList<>();
     private boolean alreadyOpened = false;
 
     /**
@@ -68,28 +68,24 @@ public class Room
      */
     public ArrayList<Object> getObjects()
     {
-        ArrayList<Object> objects = new ArrayList<Object>();
-        if (objectSpeakers != null)
-        {
-            for (ObjectSpeaker objectSpeaker : objectSpeakers)
-            {
+        ArrayList<Object> objects = new ArrayList<>();
+        
+        if (objectSpeakers != null) {
+            for (ObjectSpeaker objectSpeaker : objectSpeakers) {
                 objects.add(objectSpeaker);
             }
         }
-        if (objectChangers != null)
-        {
-            for (ObjectChanger objectChanger : objectChangers)
-            {
+        if (objectChangers != null) {
+            for (ObjectChanger objectChanger : objectChangers) {
                 objects.add(objectChanger);
             }
         }
-        if (objectContainers != null)
-        {
-            for (ObjectContainer objectContainer : objectContainers)
-            {
+        if (objectContainers != null) {
+            for (ObjectContainer objectContainer : objectContainers) {
                 objects.add(objectContainer);
             }
         }
+        
         return objects;
     }
 
@@ -152,17 +148,14 @@ public class Room
      */
     public ArrayList<Enemy> getEnemies()
     {
-        if (enemies == null)
-        {
+        if (enemies == null) {
             return null;
         }
-        else
-        {
-            ArrayList<Enemy> enemyReturn = new ArrayList<Enemy>();
+        else {
+            ArrayList<Enemy> enemyReturn = new ArrayList<>();
             Iterator<Enemy> enemyIterator = enemies.iterator();
 
-            while (enemyIterator.hasNext())
-            {
+            while (enemyIterator.hasNext()) {
                 enemyReturn.add (enemyIterator.next());
             }
 
@@ -180,16 +173,25 @@ public class Room
         enemies.remove(enemy);
     }
     
+    /**
+     * @author Tyll Heinen
+     */
     public void removeObjectChanger(ObjectChanger objectChanger)
     {
         objectChangers.remove(objectChanger);
     }
 
+    /**
+     * @author Tyll Heinen
+     */
     public boolean getAlreadyOpened()
     {
         return alreadyOpened;
     }
     
+    /**
+     * @author Tyll Heinen
+     */
     public void setAlreadyOpened()
     {
         alreadyOpened = true;

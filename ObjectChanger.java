@@ -6,6 +6,7 @@
 public class ObjectChanger extends Object
 {
     private int[] content;
+    private boolean visibility = true;
     
     /**
      * Initialisierung der Variablen mit den übergebenen Werten.
@@ -21,9 +22,18 @@ public class ObjectChanger extends Object
         type = 2;
     }
     
-    public void setContent()
+    /**
+     * Indikatorwert, der das Objekt unsichtbar schaltet, nachdem es benutzt wurde.
+     * @
+     */
+    public void setVisibility(boolean value)
     {
-        content[0] = -1;
+        visibility = value;
+    }
+    
+    public boolean getVisibility()
+    {
+        return visibility;
     }
     
     /**

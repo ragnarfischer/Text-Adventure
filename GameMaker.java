@@ -242,7 +242,7 @@ public class GameMaker
                     }
                     System.out.println ("Du hast " + objectChanger.getName() + " benutzt.");
                     currentRoom.removeObjectChanger(objectChanger);
-                    objectChanger.setContent();
+                    objectChanger.setVisibility(false);
                     return;
                 }
             }
@@ -302,7 +302,7 @@ public class GameMaker
                     {
                         for (ObjectChanger objectChanger : objectContainer.getContentChanger())
                         {
-                            if(objectChanger.getContent()[0] != -1)
+                            if(objectChanger.getVisibility())
                             {
                                 System.out.print(objectChanger.getName() + ", ");
                                 if(currentRoom.getAlreadyOpened() == false)
