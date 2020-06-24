@@ -121,7 +121,6 @@ public class GameMaker
      */
     private void help()
     {
-        System.out.println ("");
         System.out.println ("Diese Anweisungen verstehe ich am besten: ");
         System.out.println ("'Hilfe'                           - Ich zeige dir welche Anweisungen ich am besten verstehe.");
         System.out.println ("'Beenden'                         - Wir beenden die Mission.");
@@ -258,7 +257,6 @@ public class GameMaker
                 if (objectContainer.getName().equals(name)) {
                     System.out.print ("Hier drin befinden sich: ");
                     if (objectContainer.getContentSpeaker() != null) {
-
                         for (ObjectSpeaker objectSpeaker : objectContainer.getContentSpeaker()) {
                             System.out.print(objectSpeaker.getName() + ", ");
                             if(!objectContainer.getOpened()) {
