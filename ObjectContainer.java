@@ -10,6 +10,7 @@ public class ObjectContainer extends Object
     private ArrayList<ObjectSpeaker> contentSpeaker;
     private ArrayList<ObjectChanger> contentChanger;
     private ArrayList<ObjectContainer> contentContainer;
+    private boolean opened = false;
 
     /**
      * Initialisierung der Variablen mit den übergebenen Werten.
@@ -77,5 +78,25 @@ public class ObjectContainer extends Object
     public ArrayList<ObjectContainer> getContentContainer()
     {
         return contentContainer;
+    }
+    
+    /**
+     * @param value Boolean, ob der Container bereits geöffnet wurde.
+     * 
+     * @author Tyll Heinen & Ragnar Fischer
+     */
+    public void setOpened(boolean value)
+    {
+        opened = value;
+    }
+    
+    /**
+     * @return Informatiom, ob der Container bereits geöffnet wurde.
+     * 
+     * @author Tyll Heinen & Ragnar Fischer
+     */
+    public boolean getOpened()
+    {
+        return opened;
     }
 }

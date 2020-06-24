@@ -23,14 +23,20 @@ public class ObjectChanger extends Object
     }
     
     /**
-     * Indikatorwert, der das Objekt unsichtbar schaltet, nachdem es benutzt wurde.
-     * @
+     * @param value Boolean, der die Sichtbarkeit des Objektes nach der Benutzung steuert.
+     * 
+     * @author Tyll Heinen & Ragnar Fischer
      */
     public void setVisibility(boolean value)
     {
         visibility = value;
     }
     
+    /**
+     * @return Boolean, der die Sichtbarkeit des Objektes nach der Benutzung steuert.
+     * 
+     * @author Tyll Heinen & Ragnar Fischer
+     */
     public boolean getVisibility()
     {
         return visibility;

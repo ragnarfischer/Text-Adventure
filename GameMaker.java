@@ -24,8 +24,7 @@ public class GameMaker
         choosePlayer();
         lastHints();
 
-        while (!quit)
-        {
+        while (!quit) {
             execute();
         }
     }
@@ -37,26 +36,18 @@ public class GameMaker
      */
     private void execute ()
     {
-        if(currentRoom.getEnemies() != null)
-        {
-            if(currentRoom.getEnemies().size() > 0)
-            {
-                for (Enemy enemy : currentRoom.getEnemies())
-                {
+        if(currentRoom.getEnemies() != null) {
+            if(currentRoom.getEnemies().size() > 0) {
+                for (Enemy enemy : currentRoom.getEnemies()) {
                     fight(enemy.getName());
-                    
-                    if (quit == true)
-                    {
-                        return;
-                    }
+
+                    if (quit == true) return;
                 }
             }
         }
-        
-        String[] command = userInput.getCommand();
 
-        switch (command[0])
-        {
+        String[] command = userInput.getCommand();
+        switch (command[0]) {
             case "Hilfe":       help();                 break;
             case "Beenden":     quit = true;            break;
             case "Gehe":        changeRoom(command[2]); break;
@@ -101,8 +92,7 @@ public class GameMaker
      */
     private void choosePlayer()
     {
-        switch (userInput.getCommand()[0])
-        {
+        switch (userInput.getCommand()[0]) {
             case "Ritter": player.setPlayer(1); System.out.println ("Hallo Herr " + player.getName() +" !"); break;
             case "Bogenschütze": player.setPlayer(2); System.out.println ("Hallo Herr " + player.getName() +" !"); break;
             case "Magier": player.setPlayer(3); System.out.println ("Hallo Herr " + player.getName() +" !"); break;
@@ -121,7 +111,6 @@ public class GameMaker
         System.out.println ("Falls du nicht weiter weißt, dann gib einfach mal 'Hilfe' ein.");
         System.out.println ("Wenn du keine Lust mehr haben solltest, dann gib einfach 'Beenden' ein");
         System.out.println ("Nun viel Erfolg und stirb am besten nicht!");
-
     }
 
     //----------------- Steuerungsmethoden -----------------
@@ -133,7 +122,7 @@ public class GameMaker
      */
     private void help()
     {
-        System.out.println("");
+        System.out.println ("");
         System.out.println ("Diese Anweisungen verstehe ich am besten: ");
         System.out.println ("'Hilfe'                           - Ich zeige dir welche Anweisungen ich am besten verstehe.");
         System.out.println ("'Beenden'                         - Wir beenden die Mission.");
@@ -156,12 +145,9 @@ public class GameMaker
      */
     private void changeRoom(String direction)
     {
-        if (currentRoom.getExits() != null)
-        {
-            for (Exit exit : currentRoom.getExits())
-            {
-                if (exit.getDirection().equals(direction))
-                {
+        if (currentRoom.getExits() != null) {
+            for (Exit exit : currentRoom.getExits()) {
+                if (exit.getDirection().equals(direction)) {
                     currentRoom = exit.getDestination();
                     System.out.println ("Du bist nun in " + currentRoom.getName());
                     return;
@@ -181,17 +167,13 @@ public class GameMaker
         System.out.println (currentRoom.getDescription());
 
         System.out.print ("Im Raum befinden sich ");
-        if(currentRoom.getObjects().size() > 0)
-        {
-            for (Object object : currentRoom.getObjects())
-            {
+        if(currentRoom.getObjects().size() > 0) {
+            for (Object object : currentRoom.getObjects()) {
                 System.out.print(object.getName() + ", ");
             }
         }
-        if(currentRoom.getEnemies() != null)
-        {
-            for (Enemy enemy : currentRoom.getEnemies())
-            {
+        if(currentRoom.getEnemies() != null) {
+            for (Enemy enemy : currentRoom.getEnemies()) {
                 System.out.print(enemy.getName() + ", ");
             }
         }
@@ -206,10 +188,8 @@ public class GameMaker
      */
     private void speakTo (String name)
     {
-        if( currentRoom.getObjectSpeakers().size() > 0)
-        {
-            for (ObjectSpeaker objectSpeaker : currentRoom.getObjectSpeakers())
-            {
+        if( currentRoom.getObjectSpeakers().size() > 0) {
+            for (ObjectSpeaker objectSpeaker : currentRoom.getObjectSpeakers()) {
                 if (objectSpeaker.getName().equals(name))
                 {
                     System.out.println (objectSpeaker.getContent());
@@ -228,28 +208,26 @@ public class GameMaker
      */
     private void use(String name)
     {
-        if(currentRoom.getObjectChangers().size() > 0)
-        {
-            for (ObjectChanger objectChanger : currentRoom.getObjectChangers())
-            {
-                if (objectChanger.getName().equals(name))
-                {
-                    switch (objectChanger.getContent()[0])
-                    {
+        if(currentRoom.getObjectChangers().size() > 0) {
+            for (ObjectChanger objectChanger : currentRoom.getObjectChangers()) {
+                if (objectChanger.getName().equals(name)) {
+                    switch (objectChanger.getContent()[0]) {
                         case 1: player.setAttackDamage(player.getAttackDamage() + objectChanger.getContent()[1]);    break;
                         case 2: player.setArmor(player.getArmor() + objectChanger.getContent()[1]);                  break;
                         default: System.out.println("Entschuldigung, irgendwie ist mir ein Fehler passiert.");
                     }
                     System.out.println ("Du hast " + objectChanger.getName() + " benutzt.");
+
                     currentRoom.removeObjectChanger(objectChanger);
                     objectChanger.setVisibility(false);
+
                     return;
                 }
             }
         }
         System.out.println ("Bitte nochmal. Ich habe nicht ganz verstanden, was du benutzen möchtest.");
     }
-    
+
     /**
      * Wiedergabe der Beschreibung eines Objektes.
      * 
@@ -257,12 +235,9 @@ public class GameMaker
      */
     private void inspect (String name)
     {
-        if (currentRoom.getObjects().size() > 0)
-        {
-            for (Object object : currentRoom.getObjects())
-            {
-                if (object.getName().equals(name))
-                {
+        if (currentRoom.getObjects().size() > 0) {
+            for (Object object : currentRoom.getObjects()) {
+                if (object.getName().equals(name)) {
                     System.out.println (object.getDescription());
                     return;
                 }
@@ -275,58 +250,42 @@ public class GameMaker
      * Aufzählen und Auspacken der Inhalte eines Objektes, das weitere Objekte beinhaltet
      * @param name Name des angesprochenen Objektes
      * 
-     * @author Ragnar Fischer
+     * @author Ragnar Fischer & Tyll Heinen
      */
     private void open(String name)
     {
-        if (currentRoom.getObjectContainers().size() > 0)
-        {
-            for (ObjectContainer objectContainer : currentRoom.getObjectContainers())
-            {
-                if (objectContainer.getName().equals(name))
-                {
+        if (currentRoom.getObjectContainers().size() > 0) {
+            for (ObjectContainer objectContainer : currentRoom.getObjectContainers()) {
+                if (objectContainer.getName().equals(name) && objectContainer.getContentSpeaker() != null) {
                     System.out.print ("Hier drin befinden sich: ");
-                    if( objectContainer.getContentSpeaker() != null)
-                    {
-
-                        for (ObjectSpeaker objectSpeaker : objectContainer.getContentSpeaker())
-                        {
-                            System.out.print(objectSpeaker.getName() + ", ");
-                            if(currentRoom.getAlreadyOpened() == false)
-                            {
-                                currentRoom.addObjectSpeaker(objectSpeaker);
-                            }
+                    for (ObjectSpeaker objectSpeaker : objectContainer.getContentSpeaker()) {
+                        System.out.print(objectSpeaker.getName() + ", ");
+                        if(!objectContainer.getOpened()) {
+                            currentRoom.addObjectSpeaker(objectSpeaker);
                         }
                     }
-                    if( objectContainer.getContentChanger().size() > 0)
-                    {
-                        for (ObjectChanger objectChanger : objectContainer.getContentChanger())
-                        {
-                            if(objectChanger.getVisibility())
-                            {
-                                System.out.print(objectChanger.getName() + ", ");
-                                if(currentRoom.getAlreadyOpened() == false)
-                                {
-                                    currentRoom.addObjectChanger(objectChanger);
-                                }
-                            }
-                        }
-                    }
-                    if( objectContainer.getContentContainer() != null)
-                    {
-                        for (ObjectContainer objectContainerContent : objectContainer.getContentContainer())
-                        {
-                            System.out.print(objectContainerContent.getName() + ", ");
-                            if(currentRoom.getAlreadyOpened() == false)
-                            {
-                                currentRoom.addObjectContainer(objectContainer);
-                            }
-                        }
-                    }
-                    System.out.println ("Luft.");                    
-                    currentRoom.setAlreadyOpened();
-                    return;
                 }
+                if( objectContainer.getContentChanger().size() > 0) {
+                    for (ObjectChanger objectChanger : objectContainer.getContentChanger()) {
+                        if(objectChanger.getVisibility()) {
+                            System.out.print(objectChanger.getName() + ", ");
+                            if(!objectContainer.getOpened()) {
+                                currentRoom.addObjectChanger(objectChanger);
+                            }
+                        }
+                    }
+                }
+                if( objectContainer.getContentContainer() != null) {
+                    for (ObjectContainer objectContainerContent : objectContainer.getContentContainer()) {
+                        System.out.print(objectContainerContent.getName() + ", ");
+                        if(!objectContainer.getOpened()) {
+                            currentRoom.addObjectContainer(objectContainer);
+                        }
+                    }
+                }
+                System.out.println ("Luft.");                    
+                objectContainer.setOpened(true);
+                return;
             }
         }
         System.out.println ("Bitte nochmal. Ich habe nicht ganz verstanden, was du öffnen möchtest.");
@@ -355,12 +314,9 @@ public class GameMaker
     {
         int score = 0;
 
-        if (currentRoom.getEnemies() != null )
-        {
-            for (Enemy enemy : currentRoom.getEnemies())
-            {
-                if (enemy.getName().equals(name))
-                {
+        if (currentRoom.getEnemies() != null ) {
+            for (Enemy enemy : currentRoom.getEnemies()) {
+                if (enemy.getName().equals(name)) {
                     System.out.println ("Achtung ein Troll greift dich an! Sei vorsichtig!");
                     System.out.println ("");
                     System.out.println ("Troll: " + enemy.getText());
@@ -375,20 +331,14 @@ public class GameMaker
                     if (score > 0) {
                         System.out.println ("Gewonnen gegen " + enemy.getName());
 
-                        if (enemy.getName() == "Trollkönig")
-                        {
+                        if (enemy.getName() == "Trollkönig") {
                             System.out.println ("Super! Wir haben es geschafft! Alle Trolle sind tot!");
                             quit = true;
                         }
                         currentRoom.removeEnemy(enemy);
                     }
-                    else if (score == 0) {
-                        System.out.println ("Unentschieden gegen " + enemy.getName());
-                    }
-                    else {
-                        System.out.println ("Verloren gegen " + enemy.getName());
-                        quit = true;
-                    }
+                    else if (score == 0) System.out.println ("Unentschieden gegen " + enemy.getName());
+                    else System.out.println ("Verloren gegen " + enemy.getName()); quit = true;
                     return;
                 }
             }
@@ -477,7 +427,7 @@ public class GameMaker
                 new ArrayList<ObjectChanger> (),
                 new ArrayList<ObjectContainer> (Arrays.asList( new ObjectContainer ("Truhe", "Ein kleine Truhe an der Wand", 
                             new ArrayList<ObjectSpeaker> (Arrays.asList( new ObjectSpeaker ("Brieffetzen", "Ein kleines Stück von einem Brief.", ".... Wir werden kommen! Verlassen Sie sich drauf! .... Sie werden bald untergehen! ...."),
-                                                                         new ObjectSpeaker ("Brieffetzen", "Ein kleines Stück von einem Brief.", ".... Mit überaus unfreundlichen Grüßen, Trollkönig"))),
+                                    new ObjectSpeaker ("Brieffetzen", "Ein kleines Stück von einem Brief.", ".... Mit überaus unfreundlichen Grüßen, Trollkönig"))),
                             new ArrayList<ObjectChanger> (Arrays.asList( new ObjectChanger ("Wurfmesser", "Ein paar kleine Messer, die leicht in der Hand liegen und sicher schön zu werfen sind.", new int[] {1, 10}))),
                             null //ObjektContainer 
                         ))),
