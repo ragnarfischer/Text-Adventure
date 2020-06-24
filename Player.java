@@ -1,6 +1,7 @@
 
 /**
- * Beschreiben Sie hier die Klasse Player.
+ * Die Klasse Player speichert alle für sich relevanten Variablen und lässt sie von GameMaker aufrufen und verändern über 
+ * getter und setter.
  * 
  * @author Tyll Heinen 
  * 
@@ -23,26 +24,41 @@ public class Player
         }
     }
 
+    /**
+     * @return Schaden des Players
+     */
     public int getAttackDamage()
     {
         return attackDamage;
     }
 
+    /**
+     * @return Rüstung des Players
+     */
     public int getArmor()
     {
         return armor;
     }
 
+    /**
+     * @return Name des Players
+     */
     public String getName()
     {
         return name;
     }
 
+    /**
+     * @verändert Schaden des Players mit einer Rechnung in GameMaker, wenn Objekte benutzt werden
+     */
     public void setAttackDamage(int value)
     {
         attackDamage = value;
     }
 
+    /**
+     * @verändert Rüstung des Players mit einer Rechnung in GameMaker, wenn Objekte benutzt werden
+     */
     public void setArmor(int value)
     {
         armor = value;
